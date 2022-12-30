@@ -1,0 +1,14 @@
+---
+import Page from "@layouts/Page.astro"
+import Discover from '@layouts/Home/Discover'
+
+import theme from "@config/theme";
+
+const logo = import.meta.env.APP_LOGO;
+const name = import.meta.env.APP_NAME;
+const color = theme.light.primary;
+---
+
+<Page logo={logo} name={name} title="Discover" description="Discover Page" color={color}>
+	<Discover path="/discover" client:only="solid" />
+</Page>
