@@ -11,11 +11,11 @@ type Account struct {
 	Proxy fiber.Handler
 }
 
-func NewAccount(addrs []string) *Account {
+func NewAccount(prefix string, addrs []string) *Account {
 	handler := proxy.Balancer(proxy.Config{
 		Servers: addrs,
 		ModifyRequest: func(c *fiber.Ctx) error {
-			c.Path(strings.Replace(c.OriginalURL(), "/account", "", 1))
+			c.Path(strings.Replace(c.OriginalURL(), prefix, "", 1))
 			c.Request().Header.Add("X-Real-IP", c.IP())
 			return nil
 		},

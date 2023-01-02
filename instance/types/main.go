@@ -24,11 +24,18 @@ type ValueEnv struct {
 	Value string `json:"value" bson:"value" xml:"value" form:"value"`
 }
 
+type Application struct {
+	ID      string   `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
+	PID     string   `json:"pid,omitempty" bson:"pid,omitempty" xml:"pid,omitempty" form:"pid,omitempty"`
+	Path    string   `json:"path,omitempty" bson:"path,omitempty" xml:"path,omitempty" form:"path,omitempty"`
+	Name    string   `json:"name,omitempty" bson:"name,omitempty" xml:"name,omitempty" form:"name,omitempty"`
+	Status  string   `json:"status,omitempty" bson:"status,omitempty" xml:"status,omitempty" form:"status,omitempty"`
+	Servers []Server `json:"servers,omitempty" bson:"servers,omitempty" xml:"servers,omitempty" form:"servers,omitempty"`
+}
 type Server struct {
-	ID     string `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
-	Name   string `json:"name,omitempty" bson:"name,omitempty" xml:"name,omitempty" form:"name,omitempty"`
-	Addr   string `json:"addr,omitempty" bson:"addr,omitempty" xml:"addr,omitempty" form:"addr,omitempty"`
-	Status string `json:"status,omitempty" bson:"status,omitempty" xml:"status,omitempty" form:"status,omitempty"`
+	ID      string `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
+	Address string `json:"address,omitempty" bson:"address,omitempty" xml:"address,omitempty" form:"address,omitempty"`
+	Status  string `json:"status,omitempty" bson:"status,omitempty" xml:"status,omitempty" form:"status,omitempty"`
 }
 
 type ParamCreateEnv struct {

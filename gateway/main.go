@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"golokal/gateway/http"
 	instance "golokal/instance/http/client"
 	"golokal/instance/types"
@@ -14,9 +15,6 @@ import (
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
 	log.Println("application starting on", os.Getpid())
-	errs := make(chan error)
-	signaler := make(chan os.Signal, 1)
-	signal.Notify(signaler, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	monitor := instance.NewMonitor("")
 	go monitor.Connect("gateway")
@@ -25,6 +23,7 @@ func main() {
 
 	env := instance.NewEnv("")
 	address_gateway, _ := env.Get("address_gateway")
+	address_web, _ := env.Get("address_web")
 	address_auth, _ := env.Get("address_auth")
 	address_account, _ := env.Get("address_account")
 	address_storage, _ := env.Get("address_storage")
@@ -32,25 +31,23 @@ func main() {
 
 	http := http.New(&http.Address{
 		Gateway: address_gateway.Value,
+		Web:     address_web.Value,
 		Auth:    address_auth.Value,
 		Account: address_account.Value,
 		Storage: address_storage.Value,
 		Profile: address_profile.Value,
 	})
 
+	errc := make(chan error)
 	go func() {
-		errs <- http.Listen()
+		sigc := make(chan os.Signal, 1)
+		signal.Notify(sigc, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+		errc <- fmt.Errorf("%s", <-sigc)
+	}()
+	go func() {
+		monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "running", Time: time.Now()})
+		errc <- http.Listen()
 	}()
 	defer http.Shutdown()
-	monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "running", Time: time.Now()})
-	for {
-		select {
-		case err := <-errs:
-			log.Println(err)
-			return
-		case sign := <-signaler:
-			log.Println(sign)
-			return
-		}
-	}
+	log.Fatalln(<-errc)
 }

@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"golokal/instance/database"
 	"golokal/instance/database/model"
 	"golokal/instance/feature"
 	"golokal/instance/http"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -23,5 +27,17 @@ func main() {
 	sv_http := http.NewHttp(address_instance.Value, ft_monitor, ft_env)
 	ft_monitor.Start()
 	defer ft_monitor.Stop()
-	log.Fatal(sv_http.Listen())
+
+	log.Println("process id", os.Getpid())
+	errc := make(chan error)
+	go func() {
+		sigc := make(chan os.Signal, 1)
+		signal.Notify(sigc, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+		errc <- fmt.Errorf("%s", <-sigc)
+	}()
+	go func() {
+		errc <- sv_http.Listen()
+	}()
+	defer sv_http.Shutdown()
+	log.Fatalln(<-errc)
 }

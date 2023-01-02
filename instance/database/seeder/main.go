@@ -50,10 +50,11 @@ func up(env *feature.Env) {
 
 	env.Create("address_gateway", "localhost:5000")
 	env.Create("address_instance", "localhost:5010")
-	env.Create("address_auth", "localhost:5020")
-	env.Create("address_account", "localhost:5030")
-	env.Create("address_storage", "localhost:5040")
-	env.Create("address_profile", "localhost:5050")
+	env.Create("address_web", "localhost:5020")
+	env.Create("address_auth", "localhost:5030")
+	env.Create("address_account", "localhost:5040")
+	env.Create("address_storage", "localhost:5050")
+	env.Create("address_profile", "localhost:5060")
 }
 func down(env *feature.Env) {
 	env.Clear()

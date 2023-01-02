@@ -10,8 +10,8 @@ import (
 )
 
 type Http struct {
-	addr string
-	app  *fiber.App
+	address string
+	app     *fiber.App
 }
 
 func NewHttp(addr string, ft_monitor *feature.Monitor, ft_env *feature.Env) *Http {
@@ -33,10 +33,14 @@ func NewHttp(addr string, ft_monitor *feature.Monitor, ft_env *feature.Env) *Htt
 	gp_env.Delete("/:key", ep_env.Delete)
 	gp_env.Patch("/:key/key", ep_env.SetKey)
 	gp_env.Delete("/", ep_env.Clear)
-	return &Http{addr: addr, app: app}
+	return &Http{address: addr, app: app}
 }
 
-func (http *Http) Listen() error {
-	log.Printf("http serve on %s\n", http.addr)
-	return http.app.Listen(http.addr)
+func (h *Http) Listen() error {
+	log.Printf("http listening on %s\n", h.address)
+	return h.app.Listen(h.address)
+}
+func (h *Http) Shutdown() error {
+	log.Print("http shutting down")
+	return h.app.Shutdown()
 }

@@ -12,6 +12,7 @@ type Http struct {
 }
 type Address struct {
 	Gateway string
+	Web     string
 	Auth    string
 	Account string
 	Storage string
@@ -20,19 +21,27 @@ type Address struct {
 
 func New(address *Address) *Http {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
-	account := NewAccount([]string{address.Account})
-	profile := NewProfile([]string{address.Profile})
+	prefix_account := "/api/account"
+	prefix_profile := "/api/profile"
+
+	web := Proxying("", []string{address.Web})
+	auth := NewAuth([]string{address.Auth})
+	account := Proxying(prefix_account, []string{address.Account})
+	profile := Proxying(prefix_profile, []string{address.Profile})
 
 	app.Use(NewLog())
-	api_account := app.Group("/account")
-	api_account.Post("/*/signup", account.Proxy)
-	api_account.Post("/*/signin", account.Proxy)
-	api_account.Use("/*", NewAuth([]string{address.Auth}), account.Proxy)
 
-	api_profile := app.Group("/profile")
-	api_profile.Get("/", profile.Proxy)
-	api_profile.Get("/name/*", profile.Proxy)
-	api_profile.Use("/*", NewAuth([]string{address.Auth}), profile.Proxy)
+	api_account := app.Group(prefix_account)
+	api_account.Post("/*/signup", account)
+	api_account.Post("/*/signin", account)
+	api_account.Use("/*", auth, account)
+
+	api_profile := app.Group(prefix_profile)
+	api_profile.Get("/", profile)
+	api_profile.Get("/name/*", profile)
+	api_profile.Use("/*", auth, profile)
+
+	app.Get("/*", web)
 
 	return &Http{address.Gateway, app}
 }

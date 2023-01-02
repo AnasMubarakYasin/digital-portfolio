@@ -11,11 +11,11 @@ type Profile struct {
 	Proxy fiber.Handler
 }
 
-func NewProfile(addrs []string) *Profile {
+func NewProfile(prefix string, addrs []string) *Profile {
 	handler := proxy.Balancer(proxy.Config{
 		Servers: addrs,
 		ModifyRequest: func(c *fiber.Ctx) error {
-			c.Path(strings.Replace(c.OriginalURL(), "/profile", "", 1))
+			c.Path(strings.Replace(c.OriginalURL(), prefix, "", 1))
 			c.Request().Header.Add("X-Real-IP", c.IP())
 			return nil
 		},
