@@ -1,10 +1,10 @@
 package main
 
 import (
+	"digital-portfolio/gateway/http"
+	instance "digital-portfolio/instance/http/client"
+	"digital-portfolio/instance/types"
 	"fmt"
-	"golokal/gateway/http"
-	instance "golokal/instance/http/client"
-	"golokal/instance/types"
 	"log"
 	"os"
 	"os/signal"

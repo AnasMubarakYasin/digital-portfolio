@@ -1,8 +1,8 @@
 package feature
 
 import (
+	"digital-portfolio/instance/types"
 	"fmt"
-	"golokal/instance/types"
 	"time"
 )
 

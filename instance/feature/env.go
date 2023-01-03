@@ -1,8 +1,8 @@
 package feature
 
 import (
-	"golokal/instance/database/model"
-	"golokal/instance/types"
+	"digital-portfolio/instance/database/model"
+	"digital-portfolio/instance/types"
 )
 
 type Env struct {

@@ -1,7 +1,7 @@
 package client
 
 import (
-	"golokal/auth/authc"
+	"digital-portfolio/auth/authc"
 
 	"github.com/gofiber/fiber/v2"
 )

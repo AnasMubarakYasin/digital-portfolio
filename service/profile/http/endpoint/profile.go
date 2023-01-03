@@ -1,8 +1,8 @@
 package endpoint
 
 import (
-	"golokal/service/profile/source"
-	"golokal/service/profile/types"
+	"digital-portfolio/service/profile/source"
+	"digital-portfolio/service/profile/types"
 	"net/url"
 
 	"github.com/gofiber/fiber/v2"

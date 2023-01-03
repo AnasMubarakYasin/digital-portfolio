@@ -1,10 +1,10 @@
 package endpoint
 
 import (
+	"digital-portfolio/service/account/errors"
+	"digital-portfolio/service/account/source"
+	"digital-portfolio/service/account/types"
 	goerrors "errors"
-	"golokal/service/account/errors"
-	"golokal/service/account/source"
-	"golokal/service/account/types"
 
 	"github.com/gofiber/fiber/v2"
 )

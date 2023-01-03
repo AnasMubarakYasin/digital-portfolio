@@ -1,11 +1,11 @@
 package source
 
 import (
-	"golokal/auth/authc"
-	"golokal/service/account/database/model"
-	"golokal/service/account/errors"
-	"golokal/service/account/http/client"
-	"golokal/service/account/types"
+	"digital-portfolio/auth/authc"
+	"digital-portfolio/service/account/database/model"
+	"digital-portfolio/service/account/errors"
+	"digital-portfolio/service/account/http/client"
+	"digital-portfolio/service/account/types"
 )
 
 type Customer struct {

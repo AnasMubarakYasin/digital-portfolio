@@ -1,4 +1,4 @@
-module golokal/service/account
+module digital-portfolio/service/account
 
 go 1.19
 

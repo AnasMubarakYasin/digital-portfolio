@@ -1,11 +1,11 @@
 package main
 
 import (
+	"digital-portfolio/instance/database"
+	"digital-portfolio/instance/database/model"
+	"digital-portfolio/instance/feature"
 	"encoding/json"
 	"flag"
-	"golokal/instance/database"
-	"golokal/instance/database/model"
-	"golokal/instance/feature"
 	"log"
 )
 

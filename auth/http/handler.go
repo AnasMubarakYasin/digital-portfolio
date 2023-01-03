@@ -1,8 +1,8 @@
 package http
 
 import (
+	"digital-portfolio/auth/authc"
 	"errors"
-	"golokal/auth/authc"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"

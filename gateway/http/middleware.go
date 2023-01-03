@@ -11,7 +11,7 @@ func NewLog() fiber.Handler {
 	i := 1
 	return func(c *fiber.Ctx) error {
 		rm := c.Request().Header.Method()
-		rh := c.Request().Header.Host()
+		rh := c.Context().RemoteAddr().String()
 		ro := c.Request().Header.RequestURI()
 		defer func() {
 			log.Println(i, string(rm), string(rh), string(ro), "->", c.Method(), c.Hostname(), c.OriginalURL())

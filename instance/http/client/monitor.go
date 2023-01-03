@@ -1,8 +1,8 @@
 package client
 
 import (
+	"digital-portfolio/instance/types"
 	"errors"
-	"golokal/instance/types"
 	"log"
 	"os"
 	"os/signal"

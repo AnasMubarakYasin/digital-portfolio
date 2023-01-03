@@ -1,7 +1,7 @@
 package http
 
 import (
-	"golokal/service/account/types"
+	"digital-portfolio/service/account/types"
 
 	"github.com/gofiber/fiber/v2"
 )

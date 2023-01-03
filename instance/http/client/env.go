@@ -1,7 +1,7 @@
 package client
 
 import (
-	"golokal/instance/types"
+	"digital-portfolio/instance/types"
 
 	"github.com/gofiber/fiber/v2"
 )

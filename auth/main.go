@@ -1,10 +1,10 @@
 package main
 
 import (
-	"golokal/auth/authc"
-	"golokal/auth/http"
-	instance "golokal/instance/http/client"
-	"golokal/instance/types"
+	"digital-portfolio/auth/authc"
+	"digital-portfolio/auth/http"
+	instance "digital-portfolio/instance/http/client"
+	"digital-portfolio/instance/types"
 	"log"
 	"os"
 	"os/signal"

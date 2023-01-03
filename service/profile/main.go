@@ -1,13 +1,13 @@
 package main
 
 import (
-	instance "golokal/instance/http/client"
-	"golokal/instance/types"
-	"golokal/service/profile/database"
-	"golokal/service/profile/database/model"
-	"golokal/service/profile/http"
-	"golokal/service/profile/http/client"
-	"golokal/service/profile/source"
+	instance "digital-portfolio/instance/http/client"
+	"digital-portfolio/instance/types"
+	"digital-portfolio/service/profile/database"
+	"digital-portfolio/service/profile/database/model"
+	"digital-portfolio/service/profile/http"
+	"digital-portfolio/service/profile/http/client"
+	"digital-portfolio/service/profile/source"
 	"log"
 	"os"
 	"os/signal"

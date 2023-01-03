@@ -1,11 +1,11 @@
 package main
 
 import (
+	"digital-portfolio/instance/database"
+	"digital-portfolio/instance/database/model"
+	"digital-portfolio/instance/feature"
+	"digital-portfolio/instance/http"
 	"fmt"
-	"golokal/instance/database"
-	"golokal/instance/database/model"
-	"golokal/instance/feature"
-	"golokal/instance/http"
 	"log"
 	"os"
 	"os/signal"

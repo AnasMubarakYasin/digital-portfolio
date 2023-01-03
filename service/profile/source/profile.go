@@ -1,9 +1,9 @@
 package source
 
 import (
-	"golokal/service/profile/database/model"
-	"golokal/service/profile/http/client"
-	"golokal/service/profile/types"
+	"digital-portfolio/service/profile/database/model"
+	"digital-portfolio/service/profile/http/client"
+	"digital-portfolio/service/profile/types"
 )
 
 type Profile struct {

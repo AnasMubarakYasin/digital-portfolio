@@ -1,8 +1,8 @@
 package http
 
 import (
-	"golokal/instance/feature"
-	"golokal/instance/http/endpoint"
+	"digital-portfolio/instance/feature"
+	"digital-portfolio/instance/http/endpoint"
 	"log"
 
 	"github.com/gofiber/fiber/v2"

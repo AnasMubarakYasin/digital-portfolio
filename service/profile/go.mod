@@ -1,4 +1,4 @@
-module golokal/service/profile
+module digital-portfolio/service/profile
 
 go 1.19
 

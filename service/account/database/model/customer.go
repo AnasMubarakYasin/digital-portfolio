@@ -2,9 +2,9 @@ package model
 
 import (
 	"context"
-	"golokal/service/account/database"
-	"golokal/service/account/errors"
-	"golokal/service/account/types"
+	"digital-portfolio/service/account/database"
+	"digital-portfolio/service/account/errors"
+	"digital-portfolio/service/account/types"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"

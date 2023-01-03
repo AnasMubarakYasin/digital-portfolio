@@ -1,4 +1,4 @@
-module golokal/gateway
+module digital-portfolio/gateway
 
 go 1.19
 

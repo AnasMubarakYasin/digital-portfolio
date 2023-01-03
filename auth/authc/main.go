@@ -1,8 +1,8 @@
 package authc
 
 import (
+	"digital-portfolio/service/account/types"
 	"errors"
-	"golokal/service/account/types"
 	"log"
 	"time"
 

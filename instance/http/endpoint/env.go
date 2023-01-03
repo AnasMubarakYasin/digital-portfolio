@@ -1,8 +1,8 @@
 package endpoint
 
 import (
-	"golokal/instance/feature"
-	"golokal/instance/types"
+	"digital-portfolio/instance/feature"
+	"digital-portfolio/instance/types"
 
 	"github.com/gofiber/fiber/v2"
 )
