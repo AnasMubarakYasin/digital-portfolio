@@ -1,8 +1,5 @@
 package main
 
-<<<<<<< HEAD
-func main() {}
-=======
 import (
 	instance "digital-portfolio/instance/http/client"
 	"digital-portfolio/instance/types"
@@ -65,4 +62,3 @@ func main() {
 		}
 	}
 }
->>>>>>> 75f4020 (feat: add storage service)

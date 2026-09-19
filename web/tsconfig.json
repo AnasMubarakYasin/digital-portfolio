@@ -1,23 +1,5 @@
 {
   "extends": "astro/tsconfigs/strict",
-<<<<<<< HEAD
-  "compilerOptions": {
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "baseUrl": ".",
-    "strict": false,
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@stores/*": ["src/stores/*"],
-      "@context/*": ["src/context/*"],
-      "@config/*": ["src/config/*"]
-      // "@services/*": ["src/services/*"],
-      // "@assets/*": ["src/assets/*"]
-    }
-  },
-}
-=======
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
@@ -34,4 +16,3 @@
     }
   }
 }
->>>>>>> 75f4020 (feat: add storage service)

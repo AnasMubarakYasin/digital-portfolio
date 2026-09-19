@@ -10,11 +10,7 @@ import (
 )
 
 type Database struct {
-<<<<<<< HEAD
-	Uri  string
-=======
 	URI  string
->>>>>>> 75f4020 (feat: add storage service)
 	name string
 	ctx  *context.Context
 	Cli  *mongo.Client
@@ -27,11 +23,7 @@ func NewDatabase(uri string, name string) *Database {
 }
 
 func (d *Database) Connect() {
-<<<<<<< HEAD
-	client, err := mongo.Connect(*d.ctx, options.Client().ApplyURI(d.Uri))
-=======
 	client, err := mongo.Connect(*d.ctx, options.Client().ApplyURI(d.URI))
->>>>>>> 75f4020 (feat: add storage service)
 	if err != nil {
 		log.Fatal("You must set your environmental variable.")
 	}

@@ -2,17 +2,11 @@ package types
 
 type Profile struct {
 	ID                 string              `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
-<<<<<<< HEAD
-	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`
-	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
-	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
-=======
 	Image              string              `json:"image" bson:"image" xml:"image" form:"image"`
 	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`
 	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
 	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
 	About              string              `json:"about" bson:"about" xml:"about" form:"about"`
->>>>>>> 75f4020 (feat: add storage service)
 	Resume             string              `json:"resume" bson:"resume" xml:"resume" form:"resume"`
 	Website            string              `json:"website" bson:"website" xml:"website" form:"website"`
 	Career             string              `json:"career" bson:"career" xml:"career" form:"career"`
@@ -43,14 +37,6 @@ type Experience struct {
 	Name  string `json:"name" bson:"name" xml:"name" form:"name"`
 }
 type Project struct {
-<<<<<<< HEAD
-	ID          string `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
-	Photo       string `json:"photo" bson:"photo" xml:"photo" form:"photo"`
-	Name        string `json:"name" bson:"name" xml:"name" form:"name"`
-	Client      string `json:"client" bson:"client" xml:"client" form:"client"`
-	Description string `json:"description" bson:"description" xml:"description" form:"description"`
-	Link        string `json:"link" bson:"link" xml:"link" form:"link"`
-=======
 	ID          string   `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
 	Image       string   `json:"image" bson:"image" xml:"image" form:"image"`
 	Name        string   `json:"name" bson:"name" xml:"name" form:"name"`
@@ -58,7 +44,6 @@ type Project struct {
 	Description string   `json:"description" bson:"description" xml:"description" form:"description"`
 	Link        string   `json:"link" bson:"link" xml:"link" form:"link"`
 	Tags        []string `json:"tags" bson:"tags" xml:"tags" form:"tags"`
->>>>>>> 75f4020 (feat: add storage service)
 }
 type Certificate struct {
 	Photo     string `json:"photo" bson:"photo" xml:"photo" form:"photo"`
@@ -90,13 +75,6 @@ type PreferredPosition struct {
 type Skill struct {
 	Name string `json:"name" bson:"name" xml:"name" form:"name"`
 }
-<<<<<<< HEAD
-
-type ParamCreate struct {
-	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`
-	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
-	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
-=======
 type Photo struct {
 	Name    string `json:"name" bson:"name" xml:"name" form:"name"`
 	Type    string `json:"type" bson:"type" xml:"type" form:"type"`
@@ -110,7 +88,6 @@ type ParamCreate struct {
 	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
 	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
 	About              string              `json:"about" bson:"about" xml:"about" form:"about"`
->>>>>>> 75f4020 (feat: add storage service)
 	Resume             string              `json:"resume" bson:"resume" xml:"resume" form:"resume"`
 	Website            string              `json:"website" bson:"website" xml:"website" form:"website"`
 	Career             string              `json:"career" bson:"career" xml:"career" form:"career"`
@@ -125,17 +102,11 @@ type ParamCreate struct {
 	Skills             []Skill             `json:"skills" bson:"skills" xml:"skills" form:"skills"`
 }
 type ParamUpdate struct {
-<<<<<<< HEAD
-	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`
-	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
-	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
-=======
 	Image              string              `json:"image" bson:"image" xml:"image" form:"image"`
 	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`
 	Name               string              `json:"name" bson:"name" xml:"name" form:"name"`
 	Headline           string              `json:"headline" bson:"headline" xml:"headline" form:"headline"`
 	About              string              `json:"about" bson:"about" xml:"about" form:"about"`
->>>>>>> 75f4020 (feat: add storage service)
 	Resume             string              `json:"resume" bson:"resume" xml:"resume" form:"resume"`
 	Website            string              `json:"website" bson:"website" xml:"website" form:"website"`
 	Career             string              `json:"career" bson:"career" xml:"career" form:"career"`
@@ -149,8 +120,6 @@ type ParamUpdate struct {
 	PreferredPositions []PreferredPosition `json:"preferred_positions" bson:"preferred_positions" xml:"preferred_positions" form:"preferred_positions"`
 	Skills             []Skill             `json:"skills" bson:"skills" xml:"skills" form:"skills"`
 }
-<<<<<<< HEAD
-=======
 
 // type FileUpload struct {
 // 	Name    string `json:"name" bson:"name" xml:"name" form:"name"`
@@ -164,4 +133,3 @@ type ParamUpdate struct {
 // 	Size    string `json:"size" bson:"size" xml:"size" form:"size"`
 // 	Content []byte `json:"content" bson:"content" xml:"content" form:"content"`
 // }
->>>>>>> 75f4020 (feat: add storage service)

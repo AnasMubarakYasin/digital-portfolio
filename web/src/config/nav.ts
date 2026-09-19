@@ -20,10 +20,7 @@ export const main_bottom = [
 export const user = function (user: string | number) {
   return [
     { text: "Profile", href: `/user/${user}/profile` },
-<<<<<<< HEAD
-=======
     { text: "Portfolio", href: `/user/${user}/portfolio` },
->>>>>>> 75f4020 (feat: add storage service)
     { text: "Blog", href: `/user/${user}/blog` },
   ];
 };

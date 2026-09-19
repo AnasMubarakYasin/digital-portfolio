@@ -20,10 +20,7 @@ func main() {
 	log.Println("running seeder mode", *mode)
 	switch *mode {
 	case "up":
-<<<<<<< HEAD
-=======
 		up(f_env)
->>>>>>> 75f4020 (feat: add storage service)
 	case "down":
 		down(f_env)
 	case "reset":
@@ -48,19 +45,6 @@ func up(env *feature.Env) {
 
 	env.Create("db_uri", "mongodb://localhost/")
 	env.Create("db_auth", "dport_auth")
-<<<<<<< HEAD
-	env.Create("db_account", "dport_account")
-	env.Create("db_storage", "dport_storage")
-	env.Create("db_profile", "dport_profile")
-
-	env.Create("address_gateway", "localhost:5000")
-	env.Create("address_instance", "localhost:5010")
-	env.Create("address_web", "localhost:5020")
-	env.Create("address_auth", "localhost:5030")
-	env.Create("address_account", "localhost:5040")
-	env.Create("address_storage", "localhost:5050")
-	env.Create("address_profile", "localhost:5060")
-=======
 	env.Create("db_storage", "dport_storage")
 	env.Create("db_account", "dport_account")
 	env.Create("db_profile", "dport_profile")
@@ -72,7 +56,6 @@ func up(env *feature.Env) {
 	env.Create("address_account", "localhost:3905")
 	env.Create("address_profile", "localhost:3906")
 	env.Create("address_web", "localhost:3907")
->>>>>>> 75f4020 (feat: add storage service)
 }
 func down(env *feature.Env) {
 	env.Clear()

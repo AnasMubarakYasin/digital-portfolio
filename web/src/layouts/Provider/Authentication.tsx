@@ -1,9 +1,5 @@
 // import { Authentication as ContextValue, Data, Context, CustomerSignUp, store, set_store } from "@stores/authentication"
-<<<<<<< HEAD
-// import { ParentComponent, createEffect, createResource, createSignal } from "solid-js";
-=======
 // import { type ParentComponent, createEffect, createResource, createSignal } from "solid-js";
->>>>>>> 75f4020 (feat: add storage service)
 
 // interface AuthenticationProps {
 //   guest?: boolean

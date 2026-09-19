@@ -21,31 +21,22 @@ type Address struct {
 
 func New(address *Address) *Http {
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
-<<<<<<< HEAD
-=======
 	prefix_storage := "/api/storage"
->>>>>>> 75f4020 (feat: add storage service)
 	prefix_account := "/api/account"
 	prefix_profile := "/api/profile"
 
 	web := Proxying("", []string{address.Web})
 	auth := NewAuth([]string{address.Auth})
-<<<<<<< HEAD
-=======
 	storage := Proxying(prefix_storage, []string{address.Storage})
->>>>>>> 75f4020 (feat: add storage service)
 	account := Proxying(prefix_account, []string{address.Account})
 	profile := Proxying(prefix_profile, []string{address.Profile})
 
 	app.Use(NewLog())
 
-<<<<<<< HEAD
-=======
 	api_storage := app.Group(prefix_storage)
 	api_storage.Post("/file/*", storage)
 	api_storage.Get("/file/*", storage)
 
->>>>>>> 75f4020 (feat: add storage service)
 	api_account := app.Group(prefix_account)
 	api_account.Post("/*/signup", account)
 	api_account.Post("/*/signin", account)

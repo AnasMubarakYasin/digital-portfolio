@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ParentComponent, For } from "solid-js";
-=======
 import { type ParentComponent, For } from "solid-js";
->>>>>>> 75f4020 (feat: add storage service)
 import { HopeProvider } from "@hope-ui/solid";
 import { Box } from "@hope-ui/solid";
 import { Anchor } from "@hope-ui/solid";

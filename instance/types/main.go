@@ -3,11 +3,7 @@ package types
 import "time"
 
 const (
-<<<<<<< HEAD
-	InstanceAddress = "localhost:5010"
-=======
 	InstanceAddress = "localhost:3902"
->>>>>>> 75f4020 (feat: add storage service)
 )
 
 type LogData struct {

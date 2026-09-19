@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ParentComponent, For, Show } from "solid-js";
-=======
 import { type ParentComponent, For, Show } from "solid-js";
->>>>>>> 75f4020 (feat: add storage service)
 import { Box } from "@hope-ui/solid";
 import { Flex, Spacer } from "@hope-ui/solid";
 import { Button } from "@hope-ui/solid";
@@ -19,11 +15,7 @@ import {
   MenuItem,
 } from "@hope-ui/solid";
 
-<<<<<<< HEAD
-import { HiSolidSelector } from "solid-icons/hi";
-=======
 import { HiSolidChevronUpDown } from "solid-icons/hi";
->>>>>>> 75f4020 (feat: add storage service)
 import type { Account } from "@stores/authentication";
 import { use_authentication } from "@context/authentication";
 
@@ -116,11 +108,7 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
               rounded="$full"
               color="$neutral1"
               background="$primary11"
-<<<<<<< HEAD
-              rightIcon={<Icon as={HiSolidSelector} color="$neutral12"></Icon>}
-=======
               rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
->>>>>>> 75f4020 (feat: add storage service)
             >
               {account.name}
             </MenuTrigger>
@@ -151,11 +139,7 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
           rounded="$full"
           color="$neutral12"
           background="$neutral4"
-<<<<<<< HEAD
-          rightIcon={<Icon as={HiSolidSelector} color="$neutral12"></Icon>}
-=======
           rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
->>>>>>> 75f4020 (feat: add storage service)
         >
           EN
         </MenuTrigger>

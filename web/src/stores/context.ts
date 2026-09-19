@@ -1,9 +1,5 @@
 import type { MapStore } from 'nanostores';
-<<<<<<< HEAD
-import { atom, map } from 'nanostores';
-=======
 import { map } from 'nanostores';
->>>>>>> 75f4020 (feat: add storage service)
 
 export interface Context {
   logo: string;

@@ -44,8 +44,6 @@ func (c *Profile) Clear() (*[]types.Profile, error) {
 	d, err := c.m.DeleteAll()
 	return d, err
 }
-<<<<<<< HEAD
-=======
 
 // func (c *Profile) FileUpload(p *types.FileUpload) (*string, error) {
 // 	r := ""
@@ -55,4 +53,3 @@ func (c *Profile) Clear() (*[]types.Profile, error) {
 // 	r := []byte{}
 // 	return &r, nil
 // }
->>>>>>> 75f4020 (feat: add storage service)

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { ParentComponent, onMount } from "solid-js";
-=======
 import { type ParentComponent, onMount } from "solid-js";
->>>>>>> 75f4020 (feat: add storage service)
 
 export interface LinkProps {
   class?: string;

@@ -15,20 +15,12 @@ import (
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
 	log.Println("application starting on", os.Getpid())
-<<<<<<< HEAD
-
-	monitor := instance.NewMonitor("")
-	go monitor.Connect("gateway")
-	defer monitor.Disconnect()
-	monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "starting", Time: time.Now()})
-=======
 	errs := make(chan error)
 
 	monitor := instance.NewMonitor("", &errs)
 	go monitor.Connect("gateway")
 	defer monitor.Disconnect()
 	go monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "starting", Time: time.Now()})
->>>>>>> 75f4020 (feat: add storage service)
 
 	env := instance.NewEnv("")
 	address_gateway, _ := env.Get("address_gateway")
@@ -47,20 +39,6 @@ func main() {
 		Profile: address_profile.Value,
 	})
 
-<<<<<<< HEAD
-	errc := make(chan error)
-	go func() {
-		sigc := make(chan os.Signal, 1)
-		signal.Notify(sigc, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-		errc <- fmt.Errorf("%s", <-sigc)
-	}()
-	go func() {
-		monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "running", Time: time.Now()})
-		errc <- http.Listen()
-	}()
-	defer http.Shutdown()
-	log.Fatalln(<-errc)
-=======
 	go func() {
 		sigc := make(chan os.Signal, 1)
 		signal.Notify(sigc, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
@@ -72,5 +50,4 @@ func main() {
 	defer http.Shutdown()
 	go monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "running", Time: time.Now()})
 	log.Fatalln(<-errs)
->>>>>>> 75f4020 (feat: add storage service)
 }
