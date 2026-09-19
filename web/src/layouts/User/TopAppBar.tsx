@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { ParentComponent, For, Show } from "solid-js";
+=======
+import { type ParentComponent, For, Show } from "solid-js";
+>>>>>>> 75f4020 (feat: add storage service)
 import {
   Flex,
   Avatar,
@@ -18,9 +22,16 @@ import {
   MenuLabel,
   MenuItem,
 } from "@hope-ui/solid";
+<<<<<<< HEAD
 import { HiSolidSelector } from "solid-icons/hi";
 import { FiUser } from 'solid-icons/fi'
 import { use_authentication } from "@context/authentication";
+=======
+import { HiSolidChevronUpDown } from "solid-icons/hi";
+import { FiUser } from 'solid-icons/fi'
+import { use_authentication } from "@context/authentication";
+import { useLoading } from "@context/loading";
+>>>>>>> 75f4020 (feat: add storage service)
 
 export interface TopAppBarProps {
   as?: any;
@@ -41,6 +52,10 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
   path,
   children,
 }) {
+<<<<<<< HEAD
+=======
+  const [, loading] = useLoading();
+>>>>>>> 75f4020 (feat: add storage service)
   const authc = use_authentication();
 
   return (
@@ -87,6 +102,12 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
               _hover={{
                 color: "$primary11",
               }}
+<<<<<<< HEAD
+=======
+              onclick={() =>  {
+                loading.load()
+              }}
+>>>>>>> 75f4020 (feat: add storage service)
             >
               {item.text}
             </Anchor>
@@ -96,7 +117,11 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
       <Flex gap="$4" alignItems="center">
         {/* <Button
           variant="ghost"
+<<<<<<< HEAD
           rightIcon={<Icon as={HiSolidSelector} color="$neutral12"></Icon>}
+=======
+          rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
+>>>>>>> 75f4020 (feat: add storage service)
         >
           <Flex gap="$4" alignItems="center">
             <Avatar
@@ -120,7 +145,11 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
             rounded="$full"
             color="$neutral12"
             background="$neutral4"
+<<<<<<< HEAD
             rightIcon={<Icon as={HiSolidSelector} color="$neutral12"></Icon>}
+=======
+            rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
+>>>>>>> 75f4020 (feat: add storage service)
           >
             EN
           </MenuTrigger>
@@ -137,7 +166,11 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
               colorScheme="info"
               variant="ghost"
               px="$2"
+<<<<<<< HEAD
               rightIcon={<Icon as={HiSolidSelector} color="$neutral12"></Icon>}
+=======
+              rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
+>>>>>>> 75f4020 (feat: add storage service)
             >
               <Flex gap="$4" alignItems="center">
                 <Avatar size="sm" icon={(props) => (

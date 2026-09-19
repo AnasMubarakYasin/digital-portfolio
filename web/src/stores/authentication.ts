@@ -1,8 +1,15 @@
 import type { Resource, Setter } from "solid-js";
+<<<<<<< HEAD
 import type { MapStore } from "nanostores";
 import { createStore } from "solid-js/store";
 import { map } from "nanostores";
 import { useStore } from "@nanostores/solid";
+=======
+// import type { MapStore } from "nanostores";
+// import { createStore } from "solid-js/store";
+// import { map } from "nanostores";
+// import { useStore } from "@nanostores/solid";
+>>>>>>> 75f4020 (feat: add storage service)
 
 export interface Authentication {
   data?: Data;

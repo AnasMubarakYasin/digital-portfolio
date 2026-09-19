@@ -37,11 +37,20 @@ const Index: ParentComponent<IndexProps> = function ({ path, children }) {
             h="$80"
           // px={{ "@initial": "$8", "@sm": "$16", "@md": "400px" }}
           >
+<<<<<<< HEAD
             {/* <Box w="480px">
               <Text
                 fontFamily="$sans"
                 fontSize="$2xl"
                 fontWeight="bold"
+=======
+            <Box w="480px" d="grid" gap="$2">
+              <Text
+                fontFamily="$sans"
+                fontSize="$xl"
+                fontWeight="$medium"
+                opacity="0.9"
+>>>>>>> 75f4020 (feat: add storage service)
                 textAlign="center"
               >
                 Welcome to {import.meta.env.PUBLIC_APP_NAME}
@@ -52,9 +61,15 @@ const Index: ParentComponent<IndexProps> = function ({ path, children }) {
                 fontWeight="bold"
                 textAlign="center"
               >
+<<<<<<< HEAD
                 Create your Profile and show your skill.
               </Text>
             </Box> */}
+=======
+                Create your profile and show your skill.
+              </Text>
+            </Box>
+>>>>>>> 75f4020 (feat: add storage service)
           </Box>
         </Box>
         <Box as="main" flexGrow="1">

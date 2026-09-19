@@ -1,5 +1,9 @@
 import type { ParentComponent } from "solid-js";
+<<<<<<< HEAD
 import { Authentication, Data, CustomerSignUp, set_store, get_store } from "@stores/authentication";
+=======
+import { type Authentication, type Data, type CustomerSignUp, type CustomerSignIn, set_store, get_store } from "@stores/authentication";
+>>>>>>> 75f4020 (feat: add storage service)
 import { createSignal, createEffect, createResource, createContext, useContext } from "solid-js";
 
 const Context = createContext<Authentication>();
@@ -15,7 +19,11 @@ interface AuthenticationProps {
 
 export const AuthenticationProvider: ParentComponent<AuthenticationProps> = function (props) {
   const [source_cs_signup, cs_signup] = createSignal<CustomerSignUp | undefined>();
+<<<<<<< HEAD
   const [source_cs_signin, cs_signin] = createSignal<CustomerSignUp | undefined>();
+=======
+  const [source_cs_signin, cs_signin] = createSignal<CustomerSignIn | undefined>();
+>>>>>>> 75f4020 (feat: add storage service)
   const [signup_customer] = createResource(source_cs_signup, fetcher_cs_signup);
   const [signin_customer] = createResource(source_cs_signin, fetcher_cs_signin);
   const ctx_val: Authentication = {
@@ -34,7 +42,11 @@ export const AuthenticationProvider: ParentComponent<AuthenticationProps> = func
     set_store({})
     location.assign(props.home ?? "/")
   }
+<<<<<<< HEAD
   async function fetcher_cs_signup(data) {
+=======
+  async function fetcher_cs_signup(data: any) {
+>>>>>>> 75f4020 (feat: add storage service)
     const res = await fetch("/api/account/customer/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -49,7 +61,11 @@ export const AuthenticationProvider: ParentComponent<AuthenticationProps> = func
       token: res.headers.get("WWW-Authenticate") ?? undefined,
     } as Data;
   }
+<<<<<<< HEAD
   async function fetcher_cs_signin(data) {
+=======
+  async function fetcher_cs_signin(data: any) {
+>>>>>>> 75f4020 (feat: add storage service)
     const res = await fetch("/api/account/customer/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

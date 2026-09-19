@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { ParentComponent, For, createSignal, createResource, createEffect, Show } from "solid-js";
+=======
+import { type ParentComponent, For, createSignal, createResource, createEffect, Show } from "solid-js";
+>>>>>>> 75f4020 (feat: add storage service)
 import { Flex, HopeProvider } from "@hope-ui/solid";
 import { Box } from "@hope-ui/solid";
 import { Anchor } from "@hope-ui/solid";

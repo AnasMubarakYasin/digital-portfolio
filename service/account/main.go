@@ -22,10 +22,17 @@ func main() {
 	signaler := make(chan os.Signal, 1)
 	signal.Notify(signaler, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
+<<<<<<< HEAD
 	monitor := instance.NewMonitor("")
 	go monitor.Connect("account")
 	defer monitor.Disconnect()
 	monitor.Ready().Set(&types.LogData{Name: "account", Status: "starting", Time: time.Now()})
+=======
+	monitor := instance.NewMonitor("", &errs)
+	go monitor.Connect("account")
+	defer monitor.Disconnect()
+	go monitor.Ready().Set(&types.LogData{Name: "account", Status: "starting", Time: time.Now()})
+>>>>>>> 75f4020 (feat: add storage service)
 
 	env := instance.NewEnv("")
 	db_uri, _ := env.Get("db_uri")
@@ -47,7 +54,11 @@ func main() {
 		errs <- http.Listen()
 	}()
 	defer http.Shutdown()
+<<<<<<< HEAD
 	monitor.Ready().Set(&types.LogData{Name: "account", Status: "running", Time: time.Now()})
+=======
+	go monitor.Ready().Set(&types.LogData{Name: "account", Status: "running", Time: time.Now()})
+>>>>>>> 75f4020 (feat: add storage service)
 	for {
 		select {
 		case err := <-errs:

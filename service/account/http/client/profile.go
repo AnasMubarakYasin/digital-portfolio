@@ -19,6 +19,10 @@ func (c *Profile) Create(name string) (*types.Profile, error) {
 		Name:               name,
 		ActivePositions:    []types.ActivePosition{},
 		Certificates:       []types.Certificate{},
+<<<<<<< HEAD
+=======
+		Educations:         []types.Education{},
+>>>>>>> 75f4020 (feat: add storage service)
 		Experiences:        []types.Experience{},
 		Languages:          []types.Language{},
 		PreferredPositions: []types.PreferredPosition{},

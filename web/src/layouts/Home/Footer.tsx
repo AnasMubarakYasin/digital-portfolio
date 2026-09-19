@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { ParentComponent, For } from "solid-js";
+=======
+import { type ParentComponent, For } from "solid-js";
+>>>>>>> 75f4020 (feat: add storage service)
 import {
   Flex,
   Avatar,
@@ -9,7 +13,11 @@ import {
   Button,
   Icon,
 } from "@hope-ui/solid";
+<<<<<<< HEAD
 import { HiSolidSelector } from "solid-icons/hi";
+=======
+// import { HiSolidSelector } from "solid-icons/hi";
+>>>>>>> 75f4020 (feat: add storage service)
 
 export interface FooterProps {
   as?: any;

@@ -1,10 +1,20 @@
 import express from 'express';
+<<<<<<< HEAD
 import { handler as ssrHandler } from './dist/server/entry.mjs';
 import WebSocket from 'ws';
 
 console.log('application pid', process.pid)
 
 const INSTANCE_ADDRESS = "localhost:5010"
+=======
+import compression from 'compression'
+import WebSocket from 'ws';
+import { handler as ssrHandler } from './dist/server/entry.mjs';
+
+console.log('application pid', process.pid)
+
+const INSTANCE_ADDRESS = "localhost:3902"
+>>>>>>> 75f4020 (feat: add storage service)
 let id = 1;
 let ws = new WebSocket(`ws://${INSTANCE_ADDRESS}/monitor/web`)
 await new Promise((res, rej) => {
@@ -23,9 +33,16 @@ ws.send(JSON.stringify({
 
 const app = express();
 app.use((req, res, next) => {
+<<<<<<< HEAD
   console.log(id++,req.method, req.hostname, req.path)
   next()
 })
+=======
+  console.log(req.method, req.hostname, req.path)
+  next()
+})
+app.use(compression())
+>>>>>>> 75f4020 (feat: add storage service)
 app.use(express.static('dist/client/'))
 app.use(ssrHandler);
 

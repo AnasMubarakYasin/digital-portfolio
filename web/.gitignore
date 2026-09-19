@@ -1,6 +1,10 @@
 # build output
 dist/
 .output/
+<<<<<<< HEAD
+=======
+.astro/
+>>>>>>> 75f4020 (feat: add storage service)
 
 # dependencies
 node_modules/
