@@ -6,6 +6,8 @@ Digital Portfolio is a web application to show and manage your Portfolio.
 
 ## Usage
 
+The application use microservices architecture, so you need terminal for each command.
+
 ### Install
 
 
