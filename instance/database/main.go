@@ -25,7 +25,7 @@ func NewDatabase(uri string, name string) *Database {
 func (db *Database) Connect() {
 	client, err := mongo.Connect(*db.ctx, options.Client().ApplyURI(db.Uri))
 	if err != nil {
-		log.Fatal("You must set your environmental variable.")
+		panic(err)
 	}
 	if err := client.Ping(*db.ctx, readpref.Primary()); err != nil {
 		panic(err)

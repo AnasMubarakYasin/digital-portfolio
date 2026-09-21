@@ -5,8 +5,8 @@ import (
 	"digital-portfolio/instance/http/endpoint"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/websocket/v2"
+	"github.com/gofiber/contrib/v3/websocket"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Http struct {
@@ -15,9 +15,11 @@ type Http struct {
 }
 
 func NewHttp(addr string, ft_monitor *feature.Monitor, ft_env *feature.Env) *Http {
-	app := fiber.New(fiber.Config{DisableStartupMessage: true})
+	app := fiber.New()
+
 	ep_monitor := endpoint.NewMonitor(ft_monitor)
 	ep_env := endpoint.NewEnv(ft_env)
+
 	md := NewMiddleware()
 
 	app.Use(md.Log)
@@ -33,6 +35,22 @@ func NewHttp(addr string, ft_monitor *feature.Monitor, ft_env *feature.Env) *Htt
 	gp_env.Delete("/:key", ep_env.Delete)
 	gp_env.Patch("/:key/key", ep_env.SetKey)
 	gp_env.Delete("/", ep_env.Clear)
+
+	app.Hooks().OnPreShutdown(func() error {
+		for peer := range ep_monitor.Peers {
+			if err := peer.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseGoingAway, "")); err != nil {
+				log.Println(err)
+			}
+			delete(ep_monitor.Peers, peer)
+		}
+		// ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		// defer cancel()
+		// event.Drain()
+		// event.Broadcast(websocket.FormatCloseMessage(websocket.CloseGoingAway, ""), websocket.CloseMessage)
+		// return event.CloseAll(ctx, websocket.CloseGoingAway, "server shutting down")
+		return nil
+	})
+
 	return &Http{address: addr, app: app}
 }
 

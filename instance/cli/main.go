@@ -1,18 +1,19 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
 func main() {
-	app := &cli.App{
+	app := &cli.Command{
 		Name:  "dport-cli",
 		Usage: "digital portfolio command line interface",
-		Action: func(ctx *cli.Context) error {
+		Action: func(ctx context.Context, command *cli.Command) error {
 			fmt.Println("hai")
 			return nil
 		},
@@ -34,7 +35,7 @@ func main() {
 				Name:    "install",
 				Aliases: []string{"i"},
 				Usage:   "install application on system (only linux)",
-				Action: func(*cli.Context) error {
+				Action: func(ctx context.Context, command *cli.Command) error {
 					fmt.Println("install")
 					return nil
 				},
@@ -43,7 +44,7 @@ func main() {
 				Name:    "build",
 				Aliases: []string{"b"},
 				Usage:   "build application",
-				Action: func(*cli.Context) error {
+				Action: func(ctx context.Context, command *cli.Command) error {
 					fmt.Println("build")
 					return nil
 				},
@@ -52,15 +53,15 @@ func main() {
 				Name:    "service",
 				Aliases: []string{"s"},
 				Usage:   "service control",
-				Action: func(*cli.Context) error {
+				Action: func(ctx context.Context, command *cli.Command) error {
 					return nil
 				},
-				Subcommands: []*cli.Command{
+				Commands: []*cli.Command{
 					{
 						Name:    "service",
 						Aliases: []string{"s"},
 						Usage:   "service controll",
-						Action: func(*cli.Context) error {
+						Action: func(ctx context.Context, command *cli.Command) error {
 							return nil
 						},
 					},
@@ -68,7 +69,7 @@ func main() {
 			},
 		},
 	}
-	if err := app.Run(os.Args); err != nil {
+	if err := app.Run(context.Background(), os.Args); err != nil {
 		log.Fatal(err)
 	}
 }

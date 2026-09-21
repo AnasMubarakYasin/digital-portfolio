@@ -4,102 +4,70 @@ import (
 	"digital-portfolio/instance/types"
 	"errors"
 	"log"
-	"os"
-	"os/signal"
+	"time"
 
 	"github.com/fasthttp/websocket"
 )
 
 type Monitor struct {
-	Addr      string
-	sign      chan bool
-	errs      *chan error
-	connected bool
-	lfx       []*func()
-	conn      *websocket.Conn
+	name string
+	host string
+	lfx  []*func()
+	conn *websocket.Conn
 }
 
-func NewMonitor(addr string, errs *chan error) *Monitor {
-	if addr == "" {
-		addr = types.InstanceAddress
+func NewMonitor(host string, name string) *Monitor {
+	if host == "" {
+		// TODO - you should not use types constant instead use env HTTP_ADDR
+		host = types.InstanceAddress
 	}
-	return &Monitor{Addr: addr, sign: make(chan bool), errs: errs, connected: false, lfx: []*func(){}}
+	return &Monitor{host: host, name: name, lfx: []*func(){}}
 }
 
 func (monitor *Monitor) Endpoint(name string) string {
-	return "ws://" + monitor.Addr + "/monitor/" + name
+	return "ws://" + monitor.host + "/monitor/" + name
 }
 func (monitor *Monitor) Check() error {
 	if monitor.conn == nil {
-		return errors.New("websocket not disconnect")
+		return errors.New("websocket not connected")
 	}
 	return nil
 }
-func (monitor *Monitor) Ready() *Monitor {
-	if monitor.conn == nil {
-		<-monitor.sign
-	}
-	return monitor
-}
-func (monitor *Monitor) Connect(id string) error {
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
-	conn, _, err := websocket.DefaultDialer.Dial(monitor.Endpoint(id), nil)
+func (monitor *Monitor) Connect() error {
+	time.Sleep(3 * time.Second)
+	conn, _, err := websocket.DefaultDialer.Dial(monitor.Endpoint(monitor.name), nil)
 	if err != nil {
-		log.Println(err)
-		*monitor.errs <- err
-		return err
+		panic(err)
 	}
-	defer monitor.Disconnect()
 	monitor.conn = conn
-	go func() {
-		monitor.sign <- true
-	}()
 	log.Println("monitor client connected")
 	monitor.SignalConnected()
 	go func() {
 		for {
-			if err := <-interrupt; err != nil {
+			message := &types.WebsocketMessage{}
+			if err := conn.ReadJSON(message); err != nil {
 				log.Println(err)
-				return
-			}
-			if err := conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, "")); err != nil {
-				log.Println(err)
-				return
+				break
 			}
 		}
-		// for {
-		// 	select {
-		// 	case <-interrupt:
-		// 		if err := conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, "")); err != nil {
-		// 			log.Println(err)
-		// 			return
-		// 		}
-		// 		return
-		// 	}
-		// }
 	}()
-	for {
-		message := &types.WebsocketMessage{}
-		if err := conn.ReadJSON(message); err != nil {
-			log.Println(err)
-			return nil
-		}
-		log.Println(message.Name)
-	}
+	return nil
+}
+func (monitor *Monitor) Listen() error {
+	return nil
 }
 func (monitor *Monitor) Disconnect() error {
-	if monitor.conn != nil {
-		if err := monitor.conn.Close(); err != nil {
-			log.Println(err)
-			*monitor.errs <- err
-			return err
-		}
-		monitor.conn = nil
-		go func() {
-			monitor.sign <- false
-		}()
+	if monitor.conn == nil {
+		return nil
 	}
+	if err := monitor.conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseGoingAway, "")); err != nil {
+		log.Println(err)
+	}
+	if err := monitor.conn.Close(); err != nil {
+		log.Println(err)
+		return err
+	}
+	monitor.conn = nil
 	log.Println("monitor client disconnected")
 	return nil
 }
@@ -113,14 +81,11 @@ func (monitor *Monitor) SignalConnected() {
 }
 func (monitor *Monitor) Set(param *types.LogData) error {
 	if err := monitor.Check(); err != nil {
-		log.Println(err)
-		*monitor.errs <- err
-		return err
+		panic(err)
 	}
 	message := &types.WebsocketMessage{Name: "Set", Param: *param, ParamSet: *param}
 	if err := monitor.conn.WriteJSON(message); err != nil {
 		log.Println(err)
-		*monitor.errs <- err
 	}
 	return nil
 }

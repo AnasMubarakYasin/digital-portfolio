@@ -45,7 +45,7 @@ func (monitor *Monitor) LogSpinner(message string) {
 	for {
 		fmt.Printf("%s %c \r", message, c[ci])
 		ci = (ci + 1) % len(c)
-		time.Sleep(120 * time.Millisecond)
+		time.Sleep(180 * time.Millisecond)
 		if monitor.stop_spinner {
 			break
 		}
