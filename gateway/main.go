@@ -4,7 +4,6 @@ import (
 	"digital-portfolio/gateway/http"
 	instance "digital-portfolio/instance/http/client"
 	"digital-portfolio/instance/types"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -15,12 +14,13 @@ import (
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
 	log.Println("application starting on", os.Getpid())
-	errs := make(chan error)
 
-	monitor := instance.NewMonitor("", &errs)
-	go monitor.Connect("gateway")
+	sv_name := "gateway"
+
+	monitor := instance.NewMonitor("", sv_name)
+	monitor.Connect()
 	defer monitor.Disconnect()
-	go monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "starting", Time: time.Now()})
+	monitor.Set(&types.LogData{Name: sv_name, Status: "starting", Time: time.Now()})
 
 	env := instance.NewEnv("")
 	address_gateway, _ := env.Get("address_gateway")
@@ -39,15 +39,22 @@ func main() {
 		Profile: address_profile.Value,
 	})
 
-	go func() {
-		sigc := make(chan os.Signal, 1)
-		signal.Notify(sigc, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-		errs <- fmt.Errorf("%s", <-sigc)
-	}()
+	errs := make(chan error)
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		errs <- http.Listen()
 	}()
 	defer http.Shutdown()
-	go monitor.Ready().Set(&types.LogData{Name: "gateway", Status: "running", Time: time.Now()})
-	log.Fatalln(<-errs)
+	monitor.Set(&types.LogData{Name: sv_name, Status: "running", Time: time.Now()})
+	for {
+		select {
+		case err := <-errs:
+			log.Println(err)
+			return
+		case sign := <-interrupt:
+			log.Println(sign)
+			return
+		}
+	}
 }

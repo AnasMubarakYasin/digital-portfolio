@@ -3,8 +3,8 @@ package http
 import (
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/proxy"
 )
 
 type Profile struct {
@@ -14,12 +14,12 @@ type Profile struct {
 func NewProfile(prefix string, addrs []string) *Profile {
 	handler := proxy.Balancer(proxy.Config{
 		Servers: addrs,
-		ModifyRequest: func(c *fiber.Ctx) error {
+		ModifyRequest: func(c fiber.Ctx) error {
 			c.Path(strings.Replace(c.OriginalURL(), prefix, "", 1))
 			c.Request().Header.Add("X-Real-IP", c.IP())
 			return nil
 		},
-		ModifyResponse: func(c *fiber.Ctx) error {
+		ModifyResponse: func(c fiber.Ctx) error {
 			c.Response().Header.Del(fiber.HeaderServer)
 			return nil
 		},

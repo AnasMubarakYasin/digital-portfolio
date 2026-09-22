@@ -3,7 +3,7 @@ package http
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Http struct {
@@ -20,7 +20,7 @@ type Address struct {
 }
 
 func New(address *Address) *Http {
-	app := fiber.New(fiber.Config{DisableStartupMessage: true})
+	app := fiber.New()
 	prefix_storage := "/api/storage"
 	prefix_account := "/api/account"
 	prefix_profile := "/api/profile"

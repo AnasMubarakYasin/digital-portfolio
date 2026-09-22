@@ -3,15 +3,15 @@ package http
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/proxy"
 )
 
 func NewLog() fiber.Handler {
 	i := 1
-	return func(c *fiber.Ctx) error {
+	return func(c fiber.Ctx) error {
+		rh := c.RequestCtx().RemoteAddr().String()
 		rm := c.Request().Header.Method()
-		rh := c.Context().RemoteAddr().String()
 		ro := c.Request().Header.RequestURI()
 		defer func() {
 			log.Println(i, string(rm), string(rh), string(ro), "->", c.Method(), c.Hostname(), c.OriginalURL())
@@ -23,10 +23,10 @@ func NewLog() fiber.Handler {
 func NewAuth(addrs []string) fiber.Handler {
 	return proxy.Balancer(proxy.Config{
 		Servers: addrs,
-		ModifyRequest: func(c *fiber.Ctx) error {
+		ModifyRequest: func(c fiber.Ctx) error {
 			return nil
 		},
-		ModifyResponse: func(c *fiber.Ctx) error {
+		ModifyResponse: func(c fiber.Ctx) error {
 			if c.Response().StatusCode() > 399 {
 				return nil
 			}
