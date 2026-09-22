@@ -2,27 +2,33 @@ package http
 
 import (
 	"digital-portfolio/service/account/types"
+	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3/client"
 )
 
 type Client struct {
-	uri string
+	host string
+	cl   *client.Client
 }
 
 func NewClient(uri string) *Client {
-	return &Client{uri}
-}
+	cl := client.New()
 
+	return &Client{uri, cl}
+}
+func (c *Client) Endpoint(names ...string) string {
+	return "http://" + c.host + "/" + strings.Join(names, "/")
+}
 func (c *Client) Get(id string, t string) (*types.Account, error) {
-	a := fiber.Get("http://" + c.uri + "/" + t + "/" + id)
-	if err := a.Parse(); err != nil {
+	req := c.cl.R().SetURL(c.Endpoint(t, id)).SetMethod("GET")
+	res, err := req.Send()
+	if err != nil {
 		return nil, err
 	}
-	dat := &types.Account{}
-	_, _, errs := a.Struct(dat)
-	if len(errs) > 0 {
-		return nil, errs[0]
+	data := &types.Account{}
+	if err = res.JSON(data); err != nil {
+		return nil, err
 	}
-	return dat, nil
+	return data, nil
 }

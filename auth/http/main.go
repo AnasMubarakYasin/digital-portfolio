@@ -4,7 +4,7 @@ import (
 	"digital-portfolio/auth/authc"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Http struct {
@@ -13,7 +13,7 @@ type Http struct {
 }
 
 func New(addr string, a *authc.Authc) *Http {
-	app := fiber.New(fiber.Config{DisableStartupMessage: true})
+	app := fiber.New()
 	h := NewHandler(a)
 	app.Use(NewLog())
 	app.Get("/auth", h.Auth)

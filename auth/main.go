@@ -14,15 +14,14 @@ import (
 
 func main() {
 	log.SetFlags(log.Lmicroseconds | log.Lshortfile)
-	log.Println("application starting on", os.Getpid())
-	errs := make(chan error)
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	log.Println("application process", os.Getpid())
 
-	monitor := instance.NewMonitor("", &errs)
-	go monitor.Connect("auth")
+	sv_name := "auth"
+
+	monitor := instance.NewMonitor("", sv_name)
+	monitor.Connect()
 	defer monitor.Disconnect()
-	go monitor.Ready().Set(&types.LogData{Name: "auth", Status: "starting", Time: time.Now()})
+	monitor.Set(&types.LogData{Name: sv_name, Status: "starting", Time: time.Now()})
 
 	env := instance.NewEnv("")
 	address_auth, _ := env.Get("address_auth")
@@ -32,11 +31,14 @@ func main() {
 	a := authc.New([]byte(app_key.Value), c)
 	http := http.New(address_auth.Value, a)
 
+	errs := make(chan error)
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		errs <- http.Listen()
 	}()
 	defer http.Shutdown()
-	go monitor.Ready().Set(&types.LogData{Name: "auth", Status: "running", Time: time.Now()})
+	monitor.Set(&types.LogData{Name: sv_name, Status: "running", Time: time.Now()})
 	for {
 		select {
 		case err := <-errs:

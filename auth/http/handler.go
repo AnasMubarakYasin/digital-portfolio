@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Handler struct {
@@ -15,7 +15,7 @@ type Handler struct {
 func NewHandler(a *authc.Authc) *Handler {
 	return &Handler{a}
 }
-func (h *Handler) Auth(c *fiber.Ctx) error {
+func (h *Handler) Auth(c fiber.Ctx) error {
 	a := c.Get(fiber.HeaderAuthorization, "")
 	if a == "" {
 		h.a.LogErr(errors.New("empty Authorization Header"))
@@ -33,9 +33,9 @@ func (h *Handler) Auth(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(200)
 }
-func (h *Handler) Gen(c *fiber.Ctx) error {
+func (h *Handler) Gen(c fiber.Ctx) error {
 	p := &authc.ParamGen{}
-	if err := c.BodyParser(p); err != nil {
+	if err := c.Bind().Body(p); err != nil {
 		h.a.LogErr(err)
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
