@@ -4,6 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Basic dependencies
 RUN apt-get update && apt-get install -y \
+    unzip \
     curl \
     wget \
     git \
@@ -34,7 +35,6 @@ ENV BUN_INSTALL=/root/.bun
 ENV PATH="${BUN_INSTALL}/bin:${PATH}"
 
 RUN curl -fsSL https://bun.com/install | bash
-
 
 # =========================================================
 # MongoDB
@@ -81,22 +81,22 @@ RUN cd storage && go mod download
 RUN cd web && bun run build
 
 RUN cd instance && \
-    go build -o /app/bin/instance ./cmd
+    go build -o bin/instance
 
 RUN cd auth && \
-    go build -o /app/bin/auth ./cmd
+    go build -o bin/auth
 
 RUN cd gateway && \
-    go build -o /app/bin/gateway ./cmd
+    go build -o bin/gateway
 
 RUN cd service/account && \
-    go build -o /app/bin/service/account ./cmd
+    go build -o bin/account
 
 RUN cd service/profile && \
-    go build -o /app/bin/service/profile ./cmd
+    go build -o bin/profile
 
 RUN cd storage && \
-    go build -o /app/bin/storage ./cmd
+    go build -o bin/storage
 
 
 
