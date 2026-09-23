@@ -1,0 +1,33 @@
+{
+  "name": "@digital-portfolio/web",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "11.1.6",
+    "@astrojs/solid-js": "7.0.2",
+    "@hope-ui/solid": "^0.6.7",
+    "@nanostores/solid": "^1.1.1",
+    "@stitches/core": "^1.2.8",
+    "astro": "7.3.3",
+    "compression": "^1.8.2",
+    "express": "^5.2.1",
+    "hono": "^4.13.8",
+    "nanostores": "^1.5.3",
+    "solid-icons": "^1.2.0",
+    "solid-js": "^1.9.15",
+    "solid-transition-group": "^0.0.10",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "@types/compression": "^1.8.1",
+    "@types/ws": "^8.18.1"
+  }
+}

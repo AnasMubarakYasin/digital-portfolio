@@ -2,6 +2,7 @@ package http
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/gofiber/fiber/v3"
 	"github.com/gofiber/fiber/v3/middleware/proxy"
@@ -11,13 +12,18 @@ func NewLog() fiber.Handler {
 	i := 1
 	return func(c fiber.Ctx) error {
 		rh := c.RequestCtx().RemoteAddr().String()
+		// rh := c.Request().Host()
 		rm := c.Request().Header.Method()
 		ro := c.Request().Header.RequestURI()
+
+		err := c.Next()
+
 		defer func() {
-			log.Println(i, string(rm), string(rh), string(ro), "->", c.Method(), c.Hostname(), c.OriginalURL())
+			log.Println("["+strconv.Itoa(i)+"]"+string(rm)+"|"+string(rh)+string(ro), "->", c.Response().RemoteAddr().String()+c.OriginalURL())
+			// log.Println(i, string(rm), string(rh), string(ro), "->", c.Method(), c.Hostname(), c.OriginalURL())
 			i++
 		}()
-		return c.Next()
+		return err
 	}
 }
 func NewAuth(addrs []string) fiber.Handler {

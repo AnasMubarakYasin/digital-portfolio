@@ -1,0 +1,15 @@
+---
+export interface Params {
+  name: string;
+}
+export function getStaticPaths() {
+  return [
+    { params: { name: 'anasmubarakyasin' } },
+    { params: { name: 'clifford' } },
+    { params: { name: 'rover' } },
+    { params: { name: 'spot' } },
+  ];
+}
+const { name } = Astro.params;
+---
+

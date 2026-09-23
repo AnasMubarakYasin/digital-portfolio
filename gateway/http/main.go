@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/proxy"
 )
 
 type Http struct {
@@ -20,10 +21,31 @@ type Address struct {
 }
 
 func New(address *Address) *Http {
+
+	// log.Printf("address %+v", address)
+
 	app := fiber.New()
 	prefix_storage := "/api/storage"
 	prefix_account := "/api/account"
 	prefix_profile := "/api/profile"
+
+	// proxy.WithClient(&fasthttp.Client{
+	// 	NoDefaultUserAgentHeader: true,
+	// 	DisablePathNormalizing:   true,
+	// 	MaxConnsPerHost:          2048,
+	// 	// Allow self-signed certificates when proxying to HTTPS targets.
+	// 	// SECURITY: disables certificate verification — use only when the
+	// 	// upstream is on a trusted network.
+	// 	TLSConfig: &tls.Config{
+	// 		InsecureSkipVerify: true,
+	// 		MinVersion:         tls.VersionTLS12,
+	// 	},
+	// })
+	proxy.WithSecurityPolicy(proxy.SecurityPolicy{
+		AllowedSchemes:  []string{"http", "https"},
+		AllowPrivateIPs: true,
+	})
+	// defer proxy.WithSecurityPolicy(psp)
 
 	web := Proxying("", []string{address.Web})
 	auth := NewAuth([]string{address.Auth})

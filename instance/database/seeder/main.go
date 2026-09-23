@@ -55,7 +55,7 @@ func up(env *feature.Env) {
 	env.Create("app_key", os.Getenv("APP_KEY"))
 	env.Create("app_mode", os.Getenv("APP_KEY"))
 
-	env.Create("db_uri", os.Getenv("DB_AUTH"))
+	env.Create("db_uri", os.Getenv("DB_URI"))
 	env.Create("db_auth", os.Getenv("DB_AUTH"))
 	env.Create("db_storage", os.Getenv("DB_FILE"))
 	env.Create("db_account", os.Getenv("DB_ACCOUNT"))
