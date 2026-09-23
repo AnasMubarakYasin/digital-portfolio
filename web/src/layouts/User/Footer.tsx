@@ -9,7 +9,7 @@ import {
   Button,
   Icon,
 } from "@hope-ui/solid";
-import { HiSolidSelector } from "solid-icons/hi";
+// import { HiSolidSelector } from "solid-icons/hi";
 
 export interface FooterProps {
   as?: any;

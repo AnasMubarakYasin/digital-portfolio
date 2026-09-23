@@ -90,8 +90,6 @@ import { RiSystemAddFill } from "solid-icons/ri";
 import { HiOutlineMapPin } from "solid-icons/hi";
 // import { CgWorkAlt } from 'solid-icons/cg'
 // import { RiDocumentBookLine } from 'solid-icons/ri'
-import { TbSchool } from "solid-icons/tb";
-import { TbCertificate } from "solid-icons/tb";
 import { BiRegularCertification } from "solid-icons/bi";
 import { HiOutlineUser } from "solid-icons/hi";
 import { HiOutlineInformationCircle } from "solid-icons/hi";
@@ -107,7 +105,7 @@ import { FiUser } from "solid-icons/fi";
 
 import TopAppBar from "./TopAppBar";
 import Footer from "./Footer";
-import config from "@config/theme/hopeui";
+import config from "@config/hopeui";
 import {
   AuthenticationProvider,
   use_authentication,

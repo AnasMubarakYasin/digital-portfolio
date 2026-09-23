@@ -1,4 +1,4 @@
-import { type ParentComponent, Setter, createSignal } from "solid-js";
+import { type ParentComponent, type Setter, createSignal } from "solid-js";
 import {
   HopeProvider,
   Flex,
@@ -34,7 +34,7 @@ import {
   AuthenticationProvider,
   use_authentication,
 } from "@context/authentication";
-import theme from "@config/theme/hopeui";
+import theme from "@config/hopeui";
 
 export interface SignInProps {}
 

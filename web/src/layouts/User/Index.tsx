@@ -2,7 +2,7 @@ import type { ParentComponent } from "solid-js";
 import { HopeProvider, Box } from "@hope-ui/solid";
 
 import TopAppBar from "./TopAppBar";
-import config from "@config/theme/hopeui";
+import config from "@config/hopeui";
 
 export interface HomeProps {
   nav: {

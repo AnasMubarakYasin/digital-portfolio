@@ -24,7 +24,6 @@ const BottomAppBar: ParentComponent<BottomAppBarProps> = function ({
   path,
   children,
 }) {
-  console.log(nav);
   return (
     <Flex
       as={as}

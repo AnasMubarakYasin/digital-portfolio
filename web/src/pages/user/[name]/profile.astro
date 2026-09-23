@@ -22,7 +22,7 @@ const title = `Profile - ${user_name}`
 const description = `Profile - ${user_name}`
 const path = "/profile"
 const color = theme.light.primary;
-const nav = navs.user(user_name);
+const nav = navs.user(user_name!);
 
 set_ctx({
   logo,
@@ -35,5 +35,5 @@ set_ctx({
 ---
 
 <Page logo={logo} name={name} title={title} description={description} color={color}>
-  <Profile path={path} nav={nav} name={decodeURI(user_name)} client:only="solid"></Profile>
+  <Profile path={path} nav={nav} name={decodeURI(user_name!)} client:only="solid"></Profile>
 </Page>

@@ -24,7 +24,7 @@ import TopAppBar from "./TopAppBar";
 import BottomAppBar from "./BottomAppBar";
 import Footer from "./Footer";
 
-import config from "@config/theme/hopeui";
+import config from "@config/hopeui";
 import * as nav from "@config/nav";
 import { AuthenticationProvider, use_authentication } from "@context/authentication";
 

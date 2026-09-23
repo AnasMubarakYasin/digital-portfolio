@@ -23,7 +23,8 @@ const { logo, name, title, description, color } = Astro.props as Props;
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"> -->
-  <meta name="viewport" content="width=device-width">
+  <!-- <meta name="viewport" content="width=device-width"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">   
   <meta name="keywords" content="portfolio">
   <meta name="description" content={description}>
   <meta name="description" content={Astro.generator}>
@@ -93,7 +94,7 @@ const { logo, name, title, description, color } = Astro.props as Props;
   <link href={logo} rel="icon" sizes="128x128">
 
   <!-- Others -->
-  <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
 
   <!-- UC Browser  -->
   <link href={logo} rel="apple-touch-icon-precomposed" sizes="57x57">

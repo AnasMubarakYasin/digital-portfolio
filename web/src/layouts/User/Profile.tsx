@@ -1,5 +1,5 @@
 import {
-  ParentComponent,
+  type ParentComponent,
   For,
   Switch,
   Match,
@@ -7,9 +7,9 @@ import {
   createResource,
   Show,
   createEffect,
-  Setter,
+  type Setter,
   batch,
-  Accessor,
+  type Accessor,
 } from "solid-js";
 import {
   HopeProvider,
@@ -30,13 +30,7 @@ import { Text } from "@hope-ui/solid";
 import { Anchor } from "@hope-ui/solid";
 import { Avatar, AvatarBadge, AvatarGroup, AvatarExcess } from "@hope-ui/solid";
 import { Image } from "@hope-ui/solid";
-import {
-  Tag,
-  TagCloseButton,
-  TagLabel,
-  TagLeftIcon,
-  TagRightIcon,
-} from "@hope-ui/solid";
+
 import {
   Select,
   SelectTrigger,
@@ -110,7 +104,7 @@ import { HiOutlineBuildingOffice } from "solid-icons/hi";
 import { HiOutlineSquares2x2 } from "solid-icons/hi";
 import { HiOutlineDocument } from "solid-icons/hi";
 
-import { FaRegularImage } from 'solid-icons/fa'
+import { FaRegularImage } from "solid-icons/fa";
 
 import { FaSolidMinus } from "solid-icons/fa";
 import { AiOutlineFlag } from "solid-icons/ai";
@@ -118,7 +112,7 @@ import { FiUser } from "solid-icons/fi";
 
 import TopAppBar from "./TopAppBar";
 import Footer from "./Footer";
-import config from "@config/theme/hopeui";
+import config from "@config/hopeui";
 import {
   AuthenticationProvider,
   use_authentication,
@@ -153,11 +147,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
   >();
   const [profile, { refetch }] = createResource(
     source_profile,
-    fetcher_profile
+    fetcher_profile,
   );
   const [up_res, { mutate }] = createResource(
     source_up_profile,
-    fetcher_up_profile
+    fetcher_up_profile,
   );
   async function fetcher_profile(source: { token: string; name: string }) {
     const res = await fetch(`/api/profile/name/${source.name}`, {
@@ -306,7 +300,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
   const oidm = new Map<string, File>();
   function handle_input(
     setter: Setter<any> | ((v: any) => void),
-    getter?: Accessor<any> | (() => any)
+    getter?: Accessor<any> | (() => any),
   ) {
     return function (evt: Event) {
       const target = evt.target as HTMLInputElement;
@@ -324,8 +318,8 @@ const Profile: ParentComponent<ProfileProps> = function ({
             URL.revokeObjectURL(getter());
             oidm.delete(getter());
           }
-          const oid = URL.createObjectURL(target.files.item(0));
-          oidm.set(oid, target.files.item(0));
+          const oid = URL.createObjectURL(target.files!.item(0)!);
+          oidm.set(oid, target.files!.item(0)!);
           setter(oid);
           break;
         default:
@@ -339,21 +333,21 @@ const Profile: ParentComponent<ProfileProps> = function ({
   });
   createEffect(() => {
     if (isOpnProfile()) {
-      set_pname(profile.latest.name);
-      set_pphoto(download(profile.latest.photo));
-      set_phl(profile.latest.headline);
-      set_pab(profile.latest.about);
+      set_pname(profile.latest!.name);
+      set_pphoto(download(profile.latest!.photo));
+      set_phl(profile.latest!.headline);
+      set_pab(profile.latest!.about);
     }
     if (isOpnPsProfile()) {
-      set_email(profile.latest.personal.email);
-      set_phone(profile.latest.personal.phone);
-      set_dob(profile.latest.personal.dob);
-      set_salary(profile.latest.personal.salary);
-      set_location(profile.latest.personal.location);
-      set_work(profile.latest.personal.work);
+      set_email(profile.latest!.personal.email);
+      set_phone(profile.latest!.personal.phone);
+      set_dob(profile.latest!.personal.dob);
+      set_salary(profile.latest!.personal.salary);
+      set_location(profile.latest!.personal.location);
+      set_work(profile.latest!.personal.work);
     }
-    if(isOpnDoc()) {
-      set_cv(profile.latest.resume)
+    if (isOpnDoc()) {
+      set_cv(profile.latest!.resume);
     }
     if (!isOpnPrj()) {
       set_pimage("");
@@ -384,7 +378,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
       });
     }
   });
-  get_profile({ token: authc.data.token, name });
+  get_profile({ token: authc!.data!.token!, name });
   return (
     <Box
       display="grid"
@@ -457,7 +451,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
               </Box>
             </ModalContent>
           </Modal>
-          <Show when={profile.latest && !up_res.loading}>
+          <Show when={profile.latest! && !up_res.loading}>
             <Grid gap="$4">
               {/* SECTION HeadLine */}
               <GridItem
@@ -472,7 +466,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                   <Flex gap="$4" alignItems="center">
                     <AvatarGroup>
                       <Show
-                        when={pphoto() || profile.latest.photo}
+                        when={pphoto() || profile.latest!.photo}
                         fallback={
                           <Avatar
                             size="lg"
@@ -484,18 +478,18 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       >
                         <Avatar
                           size="lg"
-                          name={pname() || profile.latest.name}
-                          src={pphoto() || download(profile.latest.photo)}
+                          name={pname() || profile.latest!.name}
+                          src={pphoto() || download(profile.latest!.photo)}
                           imageProps={{ crossorigin: "use-credentials" }}
                         />
                       </Show>
                     </AvatarGroup>
                     <Flex direction="column" flexGrow="1">
                       <Text size="2xl" fontWeight="$bold">
-                        {profile.latest.name}
+                        {profile.latest!.name}
                       </Text>
                       <Text size="base" fontWeight="$medium" opacity="0.9">
-                        {profile.latest.headline}
+                        {profile.latest!.headline}
                       </Text>
                     </Flex>
                     <Flex gap="$4" alignItems="center">
@@ -592,19 +586,19 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     <For
                       each={[
                         {
-                          title: profile.latest.personal.email,
+                          title: profile.latest!.personal.email,
                           subtitle: "Mail Address",
                         },
                         {
-                          title: profile.latest.personal.dob,
+                          title: profile.latest!.personal.dob,
                           subtitle: "Date of Birth",
                         },
                         {
-                          title: profile.latest.personal.phone,
+                          title: profile.latest!.personal.phone,
                           subtitle: "Phone Number",
                         },
                         {
-                          title: profile.latest.personal.salary,
+                          title: profile.latest!.personal.salary,
                           subtitle: "Salary Expectation",
                         },
                       ]}
@@ -654,7 +648,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                         </AvatarGroup>
                         <Flex direction="column">
                           <Text size="lg" fontWeight="$normal">
-                            {profile.latest.personal.location}
+                            {profile.latest!.personal.location}
                           </Text>
                           <Text size="base" fontWeight="$normal" opacity="0.8">
                             Location
@@ -674,7 +668,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                         </AvatarGroup>
                         <Flex direction="column">
                           <Text size="lg" fontWeight="$normal">
-                            {profile.latest.personal.work}
+                            {profile.latest!.personal.work}
                           </Text>
                           <Text size="base" fontWeight="$normal" opacity="0.8">
                             Work Type
@@ -714,7 +708,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <For each={profile.latest.experiences}>
+                  <For each={profile.latest!.experiences}>
                     {(item, index) => (
                       <Flex data-index={index()} gap="$4" alignItems="center">
                         <AvatarGroup avatarBorderRadius="$xl">
@@ -783,9 +777,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <Show when={profile.latest.projects.length}>
+                  <Show when={profile.latest!.projects.length}>
                     <Grid templateColumns="repeat(2, 1fr)" gap="$4">
-                      <For each={profile.latest.projects}>
+                      <For each={profile.latest!.projects}>
                         {(item, index) => (
                           <GridItem
                             data-index={index()}
@@ -877,7 +871,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <For each={profile.latest.educations}>
+                  <For each={profile.latest!.educations}>
                     {(item, index) => (
                       <Flex data-index={index()} gap="$3" alignItems="center">
                         <AvatarGroup avatarBorderRadius="$xl" alignSelf="start">
@@ -940,14 +934,17 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <For each={profile.latest.certificates}>
+                  <For each={profile.latest!.certificates}>
                     {(item, index) => (
                       <Flex data-index={index()} gap="$3" alignItems="center">
                         <AvatarGroup avatarBorderRadius="$xl" alignSelf="start">
                           <Avatar
                             size="md"
                             icon={(props) => (
-                              <Icon as={TbOutlineCertificate} boxSize="$6"></Icon>
+                              <Icon
+                                as={TbOutlineCertificate}
+                                boxSize="$6"
+                              ></Icon>
                             )}
                           ></Avatar>
                         </AvatarGroup>
@@ -1007,9 +1004,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <Show when={profile.latest.languages.length}>
+                  <Show when={profile.latest!.languages.length}>
                     <Grid templateColumns="repeat(3, 1fr)" gap="$4">
-                      <For each={profile.latest.languages}>
+                      <For each={profile.latest!.languages}>
                         {(item, index) => (
                           <GridItem data-index={index()}>
                             <Flex
@@ -1059,7 +1056,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
         {/* !SECTION */}
 
         {/* SECTION aside */}
-        <Show when={profile.latest && !up_res.loading}>
+        <Show when={profile.latest! && !up_res.loading}>
           <GridItem as="aside">
             <Grid gap="$4">
               {/* SECTION Positions */}
@@ -1089,7 +1086,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       </Button>
                     </Show>
                   </Flex>
-                  <For each={profile.latest.active_positions}>
+                  <For each={profile.latest!.active_positions}>
                     {(item, index) => (
                       <>
                         {index() && <Divider />}
@@ -1161,9 +1158,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       </Button>
                     </Show>
                   </Flex>
-                  <Show when={profile.latest.preferred_positions.length}>
+                  <Show when={profile.latest!.preferred_positions.length}>
                     <Grid gap="$4">
-                      <For each={profile.latest.preferred_positions}>
+                      <For each={profile.latest!.preferred_positions}>
                         {(item, index) => (
                           <GridItem data-index={index()}>
                             <Flex
@@ -1237,9 +1234,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       </Button>
                     </Show>
                   </Flex>
-                  <Show when={profile.latest.skills.length}>
+                  <Show when={profile.latest!.skills.length}>
                     <Flex wrap="wrap" gap="$2">
-                      <For each={profile.latest.skills}>
+                      <For each={profile.latest!.skills}>
                         {(item, index) => (
                           <Text
                             data-id={index()}
@@ -1331,25 +1328,25 @@ const Profile: ParentComponent<ProfileProps> = function ({
                   </Flex>
                   <Flex alignItems="center">
                     <Text size="base" fontWeight="$normal" flexGrow="1">
-                      {profile.latest.resume?.split("/").pop() || "resume.pdf"}
+                      {profile.latest!.resume?.split("/").pop() || "resume.pdf"}
                     </Text>
                     <IconButton
                       aria-label="my-resume.pdf"
                       borderRadius="$full"
                       size="sm"
-                      disabled={!profile.latest.resume}
+                      disabled={!profile.latest!.resume}
                       icon={<HiOutlineArrowDownTray />}
                       onclick={() =>
                         document
                           .querySelector<HTMLInputElement>("#url-cv")
-                          .click()
+                          ?.click()
                       }
                     />
                     <a
                       id="url-cv"
                       hidden
                       download=""
-                      href={download(profile.latest.resume)}
+                      href={download(profile.latest!.resume)}
                     ></a>
                     {/* <Button
                     rightIcon={<Icon as={HiOutlineArrowDownTray} boxSize="$5"></Icon>}
@@ -1397,23 +1394,23 @@ const Profile: ParentComponent<ProfileProps> = function ({
                         "/" +
                         "photo." +
                         file.name.split(".").pop(),
-                      file
+                      file,
                     ).finally(loading.loaded);
                   }
                   up_profile({
                     token: authc.data.token,
-                    id: profile.latest.id,
+                    id: profile.latest!.id,
                     profile: {
-                      ...profile.latest,
+                      ...profile.latest!,
                       name: pname(),
                       photo,
                       headline: phl(),
                       about: pab(),
                     },
                   });
-                  if (profile.latest.name != pname()) {
+                  if (profile.latest!.name != pname()) {
                     window.location.replace(
-                      `/user/${encodeURI(pname())}/profile`
+                      `/user/${encodeURI(pname())}/profile`,
                     );
                   } else {
                   }
@@ -1537,9 +1534,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                   evt.preventDefault();
                   up_profile({
                     token: authc.data.token,
-                    id: profile.latest.id,
+                    id: profile.latest!.id,
                     profile: {
-                      ...profile.latest,
+                      ...profile.latest!,
                       personal: {
                         email: email(),
                         phone: phone(),
@@ -1654,7 +1651,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!project()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.projects}>
+                  <For each={profile.latest!.projects}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -1671,9 +1668,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
                           borderStyle="solid"
                           borderColor="$neutral7"
                           borderRadius="$lg"
-                          onClick={() =>{
-                            set_pimage(download(item.image))
-                            set_project({ ...item, id: item.name })
+                          onClick={() => {
+                            set_pimage(download(item.image));
+                            set_project({ ...item, id: item.name });
                           }}
                         >
                           <Flex
@@ -1725,11 +1722,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
-                                  projects: profile.latest.projects.filter(
-                                    (p) => p.name != item.name
+                                  ...profile.latest!,
+                                  projects: profile.latest!.projects.filter(
+                                    (p) => p.name != item.name,
                                   ),
                                 },
                               });
@@ -1761,9 +1758,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                           "images/" +
                             pname() +
                             "/" +
-                            data.id + "." +
+                            data.id +
+                            "." +
                             file.name.split(".").pop(),
-                          file
+                          file,
                         ).finally(loading.loaded);
                         data.image = image;
                       }
@@ -1773,7 +1771,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                             return data;
                           }
                           return p;
-                        }
+                        },
                       );
                     }
                     delete data.id;
@@ -1781,14 +1779,14 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       token: authc.data.token,
                       id: profile.latest!.id,
                       profile: {
-                        ...profile.latest!,
+                        ...profile.latest!!,
                         projects: profile.latest!.projects,
                       },
                     });
                     onClsPrj();
                   }}
                 >
-                   <GridItem>
+                  <GridItem>
                     <FormControl>
                       <FormLabel
                         for="image"
@@ -1812,7 +1810,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                           <Image
                             alt="image"
                             src={pimage()}
-                            style={{"aspect-ratio": "16 / 9", "object-fit": "cover", "object-position": "center"}}
+                            style={{
+                              "aspect-ratio": "16 / 9",
+                              "object-fit": "cover",
+                              "object-position": "center",
+                            }}
                             imageProps={{ crossorigin: "use-credentials" }}
                           />
                         </Show>
@@ -1903,7 +1905,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                         <SelectContent>
                           <SelectListbox>
                             <For
-                              each={profile.latest.skills.map((v) => v.name)}
+                              each={profile.latest!.skills.map((v) => v.name)}
                             >
                               {(item) => (
                                 <SelectOption value={item}>
@@ -1966,7 +1968,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!certificate()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.certificates}>
+                  <For each={profile.latest!.certificates}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -1996,7 +1998,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               <Avatar
                                 size="md"
                                 icon={(props) => (
-                                  <Icon as={TbOutlineCertificate} boxSize="$6"></Icon>
+                                  <Icon
+                                    as={TbOutlineCertificate}
+                                    boxSize="$6"
+                                  ></Icon>
                                 )}
                               ></Avatar>
                             </AvatarGroup>
@@ -2030,12 +2035,12 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
+                                  ...profile.latest!,
                                   certificates:
-                                    profile.latest.certificates.filter(
-                                      (p) => p.name != item.name
+                                    profile.latest!.certificates.filter(
+                                      (p) => p.name != item.name,
                                     ),
                                 },
                               });
@@ -2057,10 +2062,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = certificate();
                     if (!data.id) {
-                      profile.latest.certificates.push(data);
+                      profile.latest!.certificates.push(data);
                     } else {
-                      profile.latest.certificates =
-                        profile.latest.certificates.map((p) => {
+                      profile.latest!.certificates =
+                        profile.latest!.certificates.map((p) => {
                           if (p.name == data.id) {
                             return data;
                           }
@@ -2070,10 +2075,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        certificates: profile.latest.certificates,
+                        ...profile.latest!,
+                        certificates: profile.latest!.certificates,
                       },
                     });
                     onClsCert();
@@ -2168,7 +2173,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!education()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.educations}>
+                  <For each={profile.latest!.educations}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -2235,11 +2240,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
-                                  educations: profile.latest.educations.filter(
-                                    (p) => p.name != item.name
+                                  ...profile.latest!,
+                                  educations: profile.latest!.educations.filter(
+                                    (p) => p.name != item.name,
                                   ),
                                 },
                               });
@@ -2261,24 +2266,23 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = education();
                     if (!data.id) {
-                      profile.latest.educations.push(data);
+                      profile.latest!.educations.push(data);
                     } else {
-                      profile.latest.educations = profile.latest.educations.map(
-                        (p) => {
+                      profile.latest!.educations =
+                        profile.latest!.educations.map((p) => {
                           if (p.name == data.id) {
                             return data;
                           }
                           return p;
-                        }
-                      );
+                        });
                     }
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        educations: profile.latest.educations,
+                        ...profile.latest!,
+                        educations: profile.latest!.educations,
                       },
                     });
                     onClsEdu();
@@ -2372,7 +2376,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!language()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.languages}>
+                  <For each={profile.latest!.languages}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -2433,11 +2437,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
-                                  languages: profile.latest.languages.filter(
-                                    (p) => p.name != item.name
+                                  ...profile.latest!,
+                                  languages: profile.latest!.languages.filter(
+                                    (p) => p.name != item.name,
                                   ),
                                 },
                               });
@@ -2459,24 +2463,24 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = language();
                     if (!data.id) {
-                      profile.latest.languages.push(data);
+                      profile.latest!.languages.push(data);
                     } else {
-                      profile.latest.languages = profile.latest.languages.map(
+                      profile.latest!.languages = profile.latest!.languages.map(
                         (p) => {
                           if (p.name == data.id) {
                             return data;
                           }
                           return p;
-                        }
+                        },
                       );
                     }
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        languages: profile.latest.languages,
+                        ...profile.latest!,
+                        languages: profile.latest!.languages,
                       },
                     });
                     onClsLang();
@@ -2551,7 +2555,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!active_position()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.active_positions}>
+                  <For each={profile.latest!.active_positions}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -2621,12 +2625,12 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
+                                  ...profile.latest!,
                                   active_positions:
-                                    profile.latest.active_positions.filter(
-                                      (p) => p.name != item.name
+                                    profile.latest!.active_positions.filter(
+                                      (p) => p.name != item.name,
                                     ),
                                 },
                               });
@@ -2648,10 +2652,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = active_position();
                     if (!data.id) {
-                      profile.latest.active_positions.push(data);
+                      profile.latest!.active_positions.push(data);
                     } else {
-                      profile.latest.active_positions =
-                        profile.latest.active_positions.map((p) => {
+                      profile.latest!.active_positions =
+                        profile.latest!.active_positions.map((p) => {
                           if (p.name == data.id) {
                             return data;
                           }
@@ -2661,10 +2665,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        active_positions: profile.latest.active_positions,
+                        ...profile.latest!,
+                        active_positions: profile.latest!.active_positions,
                       },
                     });
                     onClsAPs();
@@ -2778,7 +2782,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!preferred_position()}>
                 <Grid gap="$2">
-                  <For each={profile.latest.preferred_positions}>
+                  <For each={profile.latest!.preferred_positions}>
                     {(item, index) => (
                       <GridItem data-index={index()}>
                         <Button
@@ -2845,12 +2849,12 @@ const Profile: ParentComponent<ProfileProps> = function ({
                               e.stopPropagation();
                               up_profile({
                                 token: authc.data.token,
-                                id: profile.latest.id,
+                                id: profile.latest!.id,
                                 profile: {
-                                  ...profile.latest,
+                                  ...profile.latest!,
                                   preferred_positions:
-                                    profile.latest.preferred_positions.filter(
-                                      (p) => p.name != item.name
+                                    profile.latest!.preferred_positions.filter(
+                                      (p) => p.name != item.name,
                                     ),
                                 },
                               });
@@ -2872,10 +2876,10 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = preferred_position();
                     if (!data.id) {
-                      profile.latest.preferred_positions.push(data);
+                      profile.latest!.preferred_positions.push(data);
                     } else {
-                      profile.latest.preferred_positions =
-                        profile.latest.preferred_positions.map((p) => {
+                      profile.latest!.preferred_positions =
+                        profile.latest!.preferred_positions.map((p) => {
                           if (p.name == data.id) {
                             return data;
                           }
@@ -2885,10 +2889,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        preferred_positions: profile.latest.preferred_positions,
+                        ...profile.latest!,
+                        preferred_positions:
+                          profile.latest!.preferred_positions,
                       },
                     });
                     onClsPPs();
@@ -2969,7 +2974,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
             <ModalBody>
               <Show when={!skill()}>
                 <Flex wrap="wrap" gap="$2">
-                  <For each={profile.latest.skills}>
+                  <For each={profile.latest!.skills}>
                     {(item, index) => (
                       <Button
                         data-index={index()}
@@ -3000,11 +3005,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                             e.stopPropagation();
                             up_profile({
                               token: authc.data.token,
-                              id: profile.latest.id,
+                              id: profile.latest!.id,
                               profile: {
-                                ...profile.latest,
-                                skills: profile.latest.skills.filter(
-                                  (p) => p.name != item.name
+                                ...profile.latest!,
+                                skills: profile.latest!.skills.filter(
+                                  (p) => p.name != item.name,
                                 ),
                               },
                             });
@@ -3025,22 +3030,24 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     evt.preventDefault();
                     const data = skill();
                     if (!data.id) {
-                      profile.latest.skills.push(data);
+                      profile.latest!.skills.push(data);
                     } else {
-                      profile.latest.skills = profile.latest.skills.map((p) => {
-                        if (p.name == data.id) {
-                          return data;
-                        }
-                        return p;
-                      });
+                      profile.latest!.skills = profile.latest!.skills.map(
+                        (p) => {
+                          if (p.name == data.id) {
+                            return data;
+                          }
+                          return p;
+                        },
+                      );
                     }
                     delete data.id;
                     up_profile({
                       token: authc.data.token,
-                      id: profile.latest.id,
+                      id: profile.latest!.id,
                       profile: {
-                        ...profile.latest,
-                        skills: profile.latest.skills,
+                        ...profile.latest!,
+                        skills: profile.latest!.skills,
                       },
                     });
                     onClsSkl();
@@ -3103,18 +3110,18 @@ const Profile: ParentComponent<ProfileProps> = function ({
                     loading.load();
                     url_cv = await upload(
                       "documents/" +
-                        profile.latest.name +
+                        profile.latest!.name +
                         "/resume" +
                         "." +
                         file_cv.name.split(".").pop(),
-                      file_cv
+                      file_cv,
                     ).finally(loading.loaded);
                   }
                   up_profile({
                     token: authc.data.token,
-                    id: profile.latest.id,
+                    id: profile.latest!.id,
                     profile: {
-                      ...profile.latest,
+                      ...profile.latest!,
                       resume: url_cv,
                     },
                   });

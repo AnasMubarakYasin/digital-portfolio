@@ -32,7 +32,7 @@ import {
 } from "@hope-ui/solid"
 
 import { AuthenticationProvider, use_authentication } from "@context/authentication"
-import theme from "@config/theme/hopeui";
+import theme from "@config/hopeui";
 
 interface SignUpProps { }
 const SignUp: ParentComponent<SignUpProps> = function ({ children }) {
