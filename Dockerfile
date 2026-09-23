@@ -73,7 +73,7 @@ RUN go work init \
   ./service/profile \
   ./storage
 
-RUN cd instance && go mod download
+RUN cd instance && cp .env.example .env && go mod download
 RUN cd auth && go mod download
 RUN cd gateway && go mod download
 RUN cd service/account && go mod download
@@ -86,7 +86,7 @@ RUN cd storage && go mod download
 # Build applications
 # =========================================================
 
-RUN cd web && bun run build
+RUN cd web && cp .env.example .env && bun run build
 
 RUN cd instance && \
     go build -o bin/instance
