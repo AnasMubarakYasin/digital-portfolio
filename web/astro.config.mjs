@@ -3,17 +3,15 @@ import { defineConfig } from "astro/config";
 
 import solidJs from "@astrojs/solid-js";
 import adapter from "@lib/adapter";
-import node from "@astrojs/node";
-import bun from "@nurodev/astro-bun";
 
 // https://astro.build/config
 export default defineConfig({
-  server: {
-    port: 3907,
-  },
   output: "server",
   integrations: [solidJs()],
   adapter: adapter(),
+  server: {
+    port: 3907,
+  },
   vite: {
     server: {
       proxy: {
@@ -24,11 +22,4 @@ export default defineConfig({
       },
     },
   },
-  // build: {
-  //   assetsPrefix: "/assets",
-  // },
-  // adapter: node({
-  //   mode: "middleware",
-  // }),
-  // adapter: bun(),
 });
