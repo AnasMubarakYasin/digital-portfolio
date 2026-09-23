@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 # Go
 # =========================================================
 
-ARG GO_VERSION=1.25.1
+ARG GO_VERSION=1.27.1
 
 RUN wget -q https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
@@ -65,6 +65,7 @@ RUN cd web && bun install
 
 
 # Go dependencies
+RUN go work sync
 RUN cd instance && go mod download
 RUN cd auth && go mod download
 RUN cd gateway && go mod download
