@@ -3,7 +3,6 @@ module digital-portfolio/service/account
 go 1.27.1
 
 require (
-	github.com/gofiber/fiber/v2 v2.40.1
 	github.com/gofiber/fiber/v3 v3.5.0
 	go.mongodb.org/mongo-driver v1.11.1
 )
@@ -18,11 +17,9 @@ require (
 	github.com/klauspost/compress v1.19.2 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/tinylib/msgp v1.6.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.73.0 // indirect

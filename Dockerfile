@@ -98,6 +98,9 @@ RUN cd service/profile && \
 RUN cd storage && \
     go build -o bin/storage
 
+RUN cd instance && \
+    go run database/seeder/main.go --mode=up
+
 
 
 # =========================================================
