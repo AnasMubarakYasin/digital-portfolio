@@ -65,7 +65,14 @@ RUN cd web && bun install
 
 
 # Go dependencies
-RUN go work sync
+RUN go work init \
+  ./instance \
+  ./auth \
+  ./gateway \
+  ./service/account \
+  ./service/profile \
+  ./storage
+
 RUN cd instance && go mod download
 RUN cd auth && go mod download
 RUN cd gateway && go mod download
