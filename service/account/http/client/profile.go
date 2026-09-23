@@ -2,16 +2,24 @@ package client
 
 import (
 	"digital-portfolio/service/profile/types"
+	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3/client"
 )
 
 type Profile struct {
-	Addr string
+	host string
+	cl   *client.Client
 }
 
-func NewProfile(addr string) *Profile {
-	return &Profile{addr}
+func NewProfile(host string) *Profile {
+	cl := client.New()
+
+	return &Profile{host, cl}
+}
+
+func (c *Profile) Endpoint(names ...string) string {
+	return "http://" + c.host + "/" + strings.Join(names, "/")
 }
 
 func (c *Profile) Create(name string) (*types.Profile, error) {
@@ -26,15 +34,14 @@ func (c *Profile) Create(name string) (*types.Profile, error) {
 		Projects:           []types.Project{},
 		Skills:             []types.Skill{},
 	}
-	a := fiber.Post("http://" + c.Addr + "/")
-	a.JSON(p)
-	if err := a.Parse(); err != nil {
+	req := c.cl.R().SetURL(c.Endpoint("gen")).SetMethod("POST").SetJSON(p)
+	res, err := req.Send()
+	if err != nil {
 		return nil, err
 	}
 	d := &types.Profile{}
-	_, _, errs := a.Struct(d)
-	if len(errs) > 0 {
-		return nil, errs[0]
+	if err = res.JSON(d); err != nil {
+		return nil, err
 	}
 	return d, nil
 }

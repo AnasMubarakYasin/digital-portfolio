@@ -13,33 +13,33 @@ type Database struct {
 	URI  string
 	name string
 	ctx  *context.Context
-	Cli  *mongo.Client
+	cl   *mongo.Client
 	Db   *mongo.Database
 }
 
 func NewDatabase(uri string, name string) *Database {
-	ctx := context.TODO()
+	ctx := context.Background()
 	return &Database{uri, name, &ctx, nil, nil}
 }
 
 func (d *Database) Connect() {
 	client, err := mongo.Connect(*d.ctx, options.Client().ApplyURI(d.URI))
 	if err != nil {
-		log.Fatal("You must set your environmental variable.")
+		panic(err)
 	}
 	if err := client.Ping(*d.ctx, readpref.Primary()); err != nil {
 		panic(err)
 	}
 	log.Println("database connected")
-	d.Cli = client
+	d.cl = client
 	d.Db = client.Database(d.name)
 }
 func (d *Database) Disconnect() {
-	if d.Cli != nil {
-		if err := d.Cli.Disconnect(*d.ctx); err != nil {
+	if d.cl != nil {
+		if err := d.cl.Disconnect(*d.ctx); err != nil {
 			panic(err)
 		}
-		d.Cli = nil
+		d.cl = nil
 		d.Db = nil
 	}
 	log.Println("database disconnected")

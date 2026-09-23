@@ -18,14 +18,14 @@ type Database struct {
 }
 
 func NewDatabase(uri string, name string) *Database {
-	ctx := context.TODO()
+	ctx := context.Background()
 	return &Database{uri, name, &ctx, nil, nil}
 }
 
 func (d *Database) Connect() {
 	client, err := mongo.Connect(*d.ctx, options.Client().ApplyURI(d.Uri))
 	if err != nil {
-		log.Fatal("You must set your environmental variable.")
+		panic(err)
 	}
 	if err := client.Ping(*d.ctx, readpref.Primary()); err != nil {
 		panic(err)

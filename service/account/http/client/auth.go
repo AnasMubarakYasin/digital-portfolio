@@ -2,27 +2,31 @@ package client
 
 import (
 	"digital-portfolio/auth/authc"
+	"strings"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3/client"
 )
 
 type Auth struct {
-	Addr string
+	host string
+	cl   *client.Client
 }
 
-func NewAuth(addr string) *Auth {
-	return &Auth{addr}
+func NewAuth(host string) *Auth {
+	cl := client.New()
+	return &Auth{host, cl}
+}
+
+func (c *Auth) Endpoint(names ...string) string {
+	return "http://" + c.host + "/" + strings.Join(names, "/")
 }
 
 func (c *Auth) Gen(p *authc.ParamGen) (*string, error) {
-	a := fiber.Post("http://" + c.Addr + "/gen")
-	a.JSON(p)
-	if err := a.Parse(); err != nil {
+	req := c.cl.R().SetURL(c.Endpoint("gen")).SetMethod("POST").SetJSON(p)
+	res, err := req.Send()
+	if err != nil {
 		return nil, err
 	}
-	_, b, errs := a.String()
-	if len(errs) > 0 {
-		return nil, errs[0]
-	}
-	return &b, nil
+	r := res.String()
+	return &r, nil
 }

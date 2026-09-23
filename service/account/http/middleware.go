@@ -3,7 +3,7 @@ package http
 import (
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Middleware struct {
@@ -15,7 +15,7 @@ func NewMiddleware() *Middleware {
 	return &Middleware{&i}
 }
 
-func (m *Middleware) Log(c *fiber.Ctx) error {
+func (m *Middleware) Log(c fiber.Ctx) error {
 	log.Println(*m.i, c.Method(), c.Hostname(), c.OriginalURL())
 	*m.i++
 	return c.Next()
