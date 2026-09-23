@@ -1,4 +1,4 @@
-module golokal/storage
+module digital-portfolio/storage
 
 go 1.19
 

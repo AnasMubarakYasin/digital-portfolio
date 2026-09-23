@@ -18,7 +18,7 @@ type Database struct {
 }
 
 func NewDatabase(uri string, name string) *Database {
-	ctx := context.TODO()
+	ctx := context.Background()
 	return &Database{uri, name, &ctx, nil, nil}
 }
 

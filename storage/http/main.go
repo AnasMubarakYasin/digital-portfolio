@@ -5,7 +5,7 @@ import (
 	"digital-portfolio/storage/source"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 )
 
 type Http struct {
@@ -14,7 +14,7 @@ type Http struct {
 }
 
 func NewHttp(address string, s *source.File) *Http {
-	app := fiber.New(fiber.Config{DisableStartupMessage: true, StreamRequestBody: true, BodyLimit: 32 * 1024 * 1024})
+	app := fiber.New(fiber.Config{StreamRequestBody: true, BodyLimit: 32 * 1024 * 1024})
 	ef := endpoint.NewFile(s)
 	m := NewMiddleware()
 	app.Use(m.Log)

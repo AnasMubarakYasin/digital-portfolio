@@ -1,11 +1,10 @@
 package source
 
 import (
-	"bufio"
 	"digital-portfolio/storage/database/model"
 	"digital-portfolio/storage/errors"
 	"digital-portfolio/storage/types"
-	"log"
+	"io"
 	"os"
 	"path/filepath"
 )
@@ -19,7 +18,7 @@ func NewFile(r string, m *model.File) *File {
 	return &File{r, m}
 }
 
-func (c *File) Upload(p *types.ParamCreate, r *bufio.Reader) (string, error) {
+func (c *File) Upload(p *types.ParamCreate, r io.Reader) (string, error) {
 	if filepath.IsAbs(p.Path) {
 		// p.Path = p.Path[1:]
 		return "", &errors.BadParam{Msg: "path must relative"}
@@ -42,12 +41,13 @@ func (c *File) Upload(p *types.ParamCreate, r *bufio.Reader) (string, error) {
 		return "", err
 	}
 	defer f.Close()
-	w := bufio.NewWriterSize(f, d.Size)
-	n, err := r.WriteTo(w)
+	// w := bufio.NewWriterSize(f, d.Size)
+	// n, err := r.WriteTo(w)
+	_, err = io.Copy(f, r)
 	if err != nil {
 		return "", err
 	}
-	log.Printf("write: %d\n", n)
+	// log.Printf("write: %d\n", n)
 	// buf := bufio.NewScanner(r)
 	// for buf.Scan() {
 	// 	b := buf.Bytes()
@@ -64,7 +64,7 @@ func (c *File) Upload(p *types.ParamCreate, r *bufio.Reader) (string, error) {
 	d.Path = d.Path[len(c.r):]
 	return d.Path, err
 }
-func (c *File) Download(p string, w *bufio.Writer) (*types.File, error) {
+func (c *File) Download(p string, w io.Writer) (*types.File, error) {
 	p = filepath.Join(c.r, p)
 	d, err := c.FindByPath(p)
 	if err != nil {
@@ -75,12 +75,16 @@ func (c *File) Download(p string, w *bufio.Writer) (*types.File, error) {
 		return nil, err
 	}
 	defer f.Close()
-	r := bufio.NewReaderSize(f, d.Size)
-	n, err := r.WriteTo(w)
+	_, err = io.Copy(w, f)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("read: %d\n", n)
+	// r := bufio.NewReaderSize(f, d.Size)
+	// n, err := r.WriteTo(w)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// log.Printf("read: %d / %d\n", n, d.Size)
 	// buf := bufio.NewScanner(f)
 	// for buf.Scan() {
 	// 	b := buf.Bytes()
