@@ -108,7 +108,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/app.conf
 
 
 # MongoDB
-VOLUME ["/app/mongodb", "/app/storage/files"]
+# VOLUME ["/app/mongodb", "/app/storage/files"]
 
 EXPOSE 3901 3902 3903 3904 3905 3906 3907 27017
 
