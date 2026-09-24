@@ -6,7 +6,6 @@ import (
 	"digital-portfolio/service/account/errors"
 	"digital-portfolio/service/account/http/client"
 	"digital-portfolio/service/account/types"
-	"log"
 )
 
 type Customer struct {
@@ -57,7 +56,6 @@ func (c *Customer) SignIn(p *types.ParamSignIn) (*types.Account, *string, error)
 		AccountID:   d.ID,
 		AccountType: "customer",
 	})
-	log.Printf("account %+v", err)
 	return d, s, err
 }
 

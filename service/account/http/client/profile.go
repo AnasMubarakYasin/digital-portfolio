@@ -34,7 +34,7 @@ func (c *Profile) Create(name string) (*types.Profile, error) {
 		Projects:           []types.Project{},
 		Skills:             []types.Skill{},
 	}
-	req := c.cl.R().SetURL(c.Endpoint("gen")).SetMethod("POST").SetJSON(p)
+	req := c.cl.R().SetURL(c.Endpoint()).SetMethod("POST").SetJSON(p)
 	res, err := req.Send()
 	if err != nil {
 		return nil, err
