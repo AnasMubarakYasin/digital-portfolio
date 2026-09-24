@@ -77,26 +77,17 @@ RUN cd storage && go mod download
 
 RUN cd web && cp .env.example .env && bun run build
 
-RUN cd instance && \
-    go build -o bin/instance
+RUN cd instance && go build -o bin/instance
 
-RUN cd auth && \
-    go build -o bin/auth
+RUN cd auth && go build -o bin/auth
 
-RUN cd gateway && \
-    go build -o bin/gateway
+RUN cd gateway && go build -o bin/gateway
 
-RUN cd service/account && \
-    go build -o bin/account
+RUN cd service/account && go build -o bin/account
 
-RUN cd service/profile && \
-    go build -o bin/profile
+RUN cd service/profile && go build -o bin/profile
 
-RUN cd storage && \
-    go build -o bin/storage
-
-RUN cd instance && \
-    go run database/seeder/main.go --mode=up
+RUN cd storage && go build -o bin/storage
 
 
 
@@ -110,4 +101,4 @@ COPY supervisord.conf /etc/supervisor/conf.d/app.conf
 
 EXPOSE 3901 3902 3903 3904 3905 3906 3907 27017
 
-CMD ["/usr/bin/supervisord", "-n"]
+ENTRYPOINT ["/app/startup.sh"]
