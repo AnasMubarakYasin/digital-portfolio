@@ -6,8 +6,10 @@ import (
 	"digital-portfolio/instance/feature"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -15,6 +17,12 @@ import (
 func main() {
 	mode := flag.String("mode", "show", "running up or down seeder")
 	flag.Parse()
+
+	// Print all environment variables
+	for _, env := range os.Environ() {
+		pair := strings.SplitN(env, "=", 2)
+		fmt.Printf("%s: %s\n", pair[0], pair[1])
+	}
 
 	err := godotenv.Load()
 	if err != nil {
