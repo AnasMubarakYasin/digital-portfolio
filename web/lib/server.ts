@@ -26,7 +26,7 @@ ws.send(
 );
 
 const [hostname, port] = await fetch(
-  `${process.env.HTTP_Host}/env/address_web`,
+  `${process.env.HTTP_HOST}/env/address_web`,
   {
     method: "GET",
   },
