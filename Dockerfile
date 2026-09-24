@@ -94,8 +94,10 @@ RUN cd storage && go build -o bin/storage
 # =========================================================
 # Supervisor
 # =========================================================
-
+COPY startup.sh /app/startup.sh
 COPY supervisord.conf /etc/supervisor/conf.d/app.conf
+
+RUN chmod +x /app/startup.sh
 
 # VOLUME ["/app/storage/files"]
 
