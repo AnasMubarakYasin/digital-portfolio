@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
 ARG DB_URI
+ARG HTTP_GATEWAY
 ARG NODE_ENV
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -101,6 +102,6 @@ RUN chmod +x /app/startup.sh
 
 # VOLUME ["/app/storage/files"]
 
-EXPOSE 3901 3902 3903 3904 3905 3906 3907 27017
+EXPOSE 3901 3902 3903 3904 3905 3906 3907
 
 ENTRYPOINT ["/app/startup.sh"]
