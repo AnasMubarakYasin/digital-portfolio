@@ -1,5 +1,8 @@
 FROM ubuntu:24.04
 
+ARG DB_URI
+ARG NODE_ENV
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Basic dependencies
