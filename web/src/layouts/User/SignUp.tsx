@@ -109,25 +109,25 @@ const SignUp: ParentComponent<SignUpProps> = function ({ children }) {
           <GridItem>
             <FormControl required>
               <FormLabel for="name">Name</FormLabel>
-              <Input id="name" type="text" value={name()} onInput={handle_input(set_name)} />
+              <Input id="name" type="text" value={name()} onInput={handle_input(set_name)} autocomplete="name"/>
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl required>
               <FormLabel for="email">Email Address</FormLabel>
-              <Input id="email" type="email" value={email()} onInput={handle_input(set_email)} />
+              <Input id="email" type="email" value={email()} onInput={handle_input(set_email)} autocomplete="email"/>
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl required>
               <FormLabel for="password">Password</FormLabel>
-              <Input id="password" type="password" value={password()} onInput={handle_input(set_password)} />
+              <Input id="password" type="password" value={password()} onInput={handle_input(set_password)} autocomplete="new-password"/>
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl required>
               <FormLabel for="password_confirmation">Password Confirmation</FormLabel>
-              <Input id="password_confirmation" type="password" value={password_confirmation()} onInput={handle_input(set_password_confirmation)} />
+              <Input id="password_confirmation" type="password" value={password_confirmation()} onInput={handle_input(set_password_confirmation)} autocomplete="new-password"/>
             </FormControl>
           </GridItem>
           <GridItem>
