@@ -36,20 +36,6 @@ ENV PATH="${BUN_INSTALL}/bin:${PATH}"
 
 RUN curl -fsSL https://bun.com/install | bash
 
-# =========================================================
-# MongoDB
-# =========================================================
-
-RUN curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc \
-    | gpg --dearmor -o /usr/share/keyrings/mongodb-server-8.0.gpg
-
-RUN echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
-    https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" \
-    > /etc/apt/sources.list.d/mongodb-org-8.0.list
-
-RUN apt-get update && apt-get install -y mongodb-org \
-    && rm -rf /var/lib/apt/lists/*
-
 
 # =========================================================
 # Application
