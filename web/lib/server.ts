@@ -32,6 +32,7 @@ const [hostname, port] = await fetch(
   },
 )
   .then((res) => res.json())
+  .then((res) => {console.log(res); return res} )
   .then((body) => body.value.split(":"));
 
 const app = new Elysia();
