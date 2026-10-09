@@ -683,24 +683,24 @@ const Profile: ParentComponent<ProfileProps> = function ({
                             borderColor="$neutral7"
                             borderRadius="$lg"
                           >
-                            <AspectRatio maxW="$full" ratio={16 / 9}>
-                              <Show
-                                when={item.image}
-                                fallback={
-                                  <Box
-                                    display="grid"
-                                    background="$neutral8"
-                                    objectFit="cover"
-                                  ></Box>
-                                }
-                              >
-                                <Image
-                                  src={download(item.image)}
-                                  alt={item.name}
-                                  objectFit="contain"
-                                />
-                              </Show>
-                            </AspectRatio>
+                            <Show
+                              when={item.image}
+                              fallback={
+                                <Box
+                                  display="grid"
+                                  background="$neutral8"
+                                  overflow="hidden"
+                                  css={{ aspectRatio: "16 / 9" }}
+                                ></Box>
+                              }
+                            >
+                              <Image
+                                src={download(item.image)}
+                                alt={item.name}
+                                objectFit="contain"
+                                css={{ aspectRatio: "16 / 9" }}
+                              />
+                            </Show>
                             {/* <AvatarGroup avatarBorderRadius="$xl">
                                 <Avatar
                                   size="md"
@@ -741,7 +741,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                 </Text>
                               </Flex>
                               {/* <Box flexGrow={1}>{item.description}</Box> */}
-                              <Text size="medium" fontWeight="$normal" flexGrow={1}>
+                              <Text
+                                size="medium"
+                                fontWeight="$normal"
+                                flexGrow={1}
+                              >
                                 {item.description}
                               </Text>
                               <Show when={item.tags.length}>
