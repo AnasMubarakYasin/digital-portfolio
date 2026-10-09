@@ -58,16 +58,16 @@ func New(address *Address) *Http {
 	storage := Proxying(prefix_storage, []string{address.Storage})
 	web := Proxying("", []string{address.Web})
 
-	app.Use(NewLog())
+	// app.Use(NewLog())
 
 	app.Get("/debug/proxy", func(c fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"c.IP()":     c.IP(),
-			"c.IPs()":    c.IPs(),
-			"c.Scheme()": c.Scheme(),
-			// "IsProxyTrusted":    c.IsProxyTrusted(),
-			// "X-Forwarded-For":   c.Get("X-Forwarded-For"),
-			// "X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
+			"c.IP()":            c.IP(),
+			"c.IPs()":           c.IPs(),
+			"c.Scheme()":        c.Scheme(),
+			"IsProxyTrusted":    c.IsProxyTrusted(),
+			"X-Forwarded-For":   c.Get("X-Forwarded-For"),
+			"X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
 		})
 	})
 
