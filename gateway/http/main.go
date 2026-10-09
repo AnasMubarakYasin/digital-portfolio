@@ -22,9 +22,15 @@ type Address struct {
 
 func New(address *Address) *Http {
 
-	// log.Printf("address %+v", address)
+	app := fiber.New(fiber.Config{
+		TrustProxy: true,
+		TrustProxyConfig: fiber.TrustProxyConfig{
+			Loopback:  true, // 127.0.0.0/8, ::1/128
+			Private:   true, // 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+			LinkLocal: true, // 169.254.0.0/16, fe80::/10
+		},
+	})
 
-	app := fiber.New()
 	prefix_storage := "/api/storage"
 	prefix_account := "/api/account"
 	prefix_profile := "/api/profile"
@@ -45,7 +51,6 @@ func New(address *Address) *Http {
 		AllowedSchemes:  []string{"http", "https"},
 		AllowPrivateIPs: true,
 	})
-	// defer proxy.WithSecurityPolicy(psp)
 
 	auth := NewAuth([]string{address.Auth}, "/authc")
 	account := Proxying(prefix_account, []string{address.Account})
@@ -54,6 +59,17 @@ func New(address *Address) *Http {
 	web := Proxying("", []string{address.Web})
 
 	app.Use(NewLog())
+
+	app.Get("/debug/proxy", func(c fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"c.IP()":     c.IP(),
+			"c.IPs()":    c.IPs(),
+			"c.Scheme()": c.Scheme(),
+			// "IsProxyTrusted":    c.IsProxyTrusted(),
+			// "X-Forwarded-For":   c.Get("X-Forwarded-For"),
+			// "X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
+		})
+	})
 
 	api_storage := app.Group(prefix_storage)
 	api_storage.Post("/file/*", storage)

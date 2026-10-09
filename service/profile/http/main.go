@@ -14,7 +14,15 @@ type Http struct {
 }
 
 func NewHttp(address string, s *source.Profile, sv *source.Visitor) *Http {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		TrustProxy: true,
+		TrustProxyConfig: fiber.TrustProxyConfig{
+			Loopback:  true,
+			Private:   true,
+			LinkLocal: true,
+		},
+	})
+
 	ep := endpoint.NewProfile(s, sv)
 	ev := endpoint.NewVisitor(sv)
 	m := NewMiddleware()
