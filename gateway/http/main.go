@@ -53,6 +53,7 @@ func New(address *Address) *Http {
 	})
 
 	auth := NewAuth([]string{address.Auth}, "/authc")
+	auth2 := Proxying("/api/auth", []string{address.Auth})
 	account := Proxying(prefix_account, []string{address.Account})
 	profile := Proxying(prefix_profile, []string{address.Profile})
 	storage := Proxying(prefix_storage, []string{address.Storage})
@@ -73,6 +74,8 @@ func New(address *Address) *Http {
 		})
 	})
 
+	app.Get("/api/auth/debug/proxy", auth2)
+
 	api_storage := app.Group(prefix_storage)
 	api_storage.Post("/file/*", storage)
 	api_storage.Get("/file/*", storage)
@@ -83,6 +86,7 @@ func New(address *Address) *Http {
 	api_account.Use("/*", auth, account)
 
 	api_profile := app.Group(prefix_profile)
+	api_profile.Get("/debug/proxy", profile)
 	api_profile.Get("/", profile)
 	api_profile.Get("/name/*", profile)
 	api_profile.Post("/visitor", profile)

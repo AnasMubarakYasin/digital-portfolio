@@ -29,6 +29,19 @@ func NewHttp(address string, s *source.Profile, sv *source.Visitor) *Http {
 
 	app.Use(m.Log)
 
+	app.Get("/debug/proxy", func(c fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"c.IP()":            c.IP(),
+			"c.IPs()":           c.IPs(),
+			"c.Scheme()":        c.Scheme(),
+			"IsProxyTrusted":    c.IsProxyTrusted(),
+			"Forwarded":         c.Get("Forwarded"),
+			"X-Real-IP":         c.Get("X-Real-IP"),
+			"X-Forwarded-For":   c.Get("X-Forwarded-For"),
+			"X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
+		})
+	})
+
 	app.Get("/name/:name", ep.Show)
 	app.Post("/visitor", ev.Count)
 
