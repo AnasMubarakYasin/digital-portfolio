@@ -12,9 +12,9 @@ func Proxying(prefix string, addrs []string) fiber.Handler {
 	return proxy.Balancer(proxy.Config{
 		Servers: addrs,
 		ModifyRequest: func(c fiber.Ctx) error {
-			c.Path(strings.Replace(c.OriginalURL(), prefix, "", 1))
+			c.Path(strings.Replace(c.Path(), prefix, "", 1))
 			c.Request().Header.Add("X-Real-IP", c.IP())
-			// log.Println(c.Host()+c.OriginalURL(), "->", addrs[0]+c.Path())
+			// log.Println(c.Method(), c.Host()+c.OriginalURL(), "->", addrs[0]+c.Path())
 			return nil
 		},
 		ModifyResponse: func(c fiber.Ctx) error {

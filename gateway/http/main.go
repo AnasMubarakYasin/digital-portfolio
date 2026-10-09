@@ -47,11 +47,11 @@ func New(address *Address) *Http {
 	})
 	// defer proxy.WithSecurityPolicy(psp)
 
-	web := Proxying("", []string{address.Web})
-	auth := NewAuth([]string{address.Auth})
-	storage := Proxying(prefix_storage, []string{address.Storage})
+	auth := NewAuth([]string{address.Auth}, "/authc")
 	account := Proxying(prefix_account, []string{address.Account})
 	profile := Proxying(prefix_profile, []string{address.Profile})
+	storage := Proxying(prefix_storage, []string{address.Storage})
+	web := Proxying("", []string{address.Web})
 
 	app.Use(NewLog())
 
@@ -67,9 +67,12 @@ func New(address *Address) *Http {
 	api_profile := app.Group(prefix_profile)
 	api_profile.Get("/", profile)
 	api_profile.Get("/name/*", profile)
+	api_profile.Post("/visitor", profile)
 	api_profile.Use("/*", auth, profile)
 
 	app.Get("/*", web)
+
+	app.Use(NewNotFound())
 
 	return &Http{address.Gateway, app}
 }

@@ -18,7 +18,7 @@ func New(addr string, a *authc.Authc) *Http {
 	app.Use(NewLog())
 	app.Get("/auth", h.Auth)
 	app.Post("/gen", h.Gen)
-	app.Use(h.Auth)
+	app.Use("/authc/*", h.Auth)
 	return &Http{addr, app}
 }
 
