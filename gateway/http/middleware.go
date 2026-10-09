@@ -31,6 +31,9 @@ func NewAuth(addrs []string, postfix string) fiber.Handler {
 	return proxy.Balancer(proxy.Config{
 		Servers: addrs,
 		ModifyRequest: func(c fiber.Ctx) error {
+			ip := c.IP()
+			c.Request().Header.Del("X-Real-IP")
+			c.Request().Header.Add("X-Real-IP", ip)
 			c.Path(postfix + c.Path())
 			log.Println("[Auth:Req]", c.Method(), c.Host()+c.OriginalURL(), "->", addrs[0]+c.Path())
 			return nil
