@@ -14,7 +14,8 @@ type Http struct {
 
 func New(addr string, a *authc.Authc) *Http {
 	app := fiber.New(fiber.Config{
-		TrustProxy: true,
+		TrustProxy:  true,
+		ProxyHeader: fiber.HeaderXForwardedFor,
 		TrustProxyConfig: fiber.TrustProxyConfig{
 			Loopback:  true,
 			Private:   true,

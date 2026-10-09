@@ -98,9 +98,6 @@ func (c *Visitor) FindOneById(id string) (*types.Visitor, error) {
 func (c *Visitor) UpdateInsert(p *types.ParamCreateVisitor) (*types.Visitor, error) {
 	obj_id, err := primitive.ObjectIDFromHex(p.ProfileID)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, &errors.NoData{}
-		}
 		return nil, &errors.Unknown{Cause: &err}
 	}
 	dat := &types.Visitor{}
@@ -114,9 +111,6 @@ func (c *Visitor) UpdateInsert(p *types.ParamCreateVisitor) (*types.Visitor, err
 func (c *Visitor) UpdateOneById(id string, p *types.ParamUpdateVisitor) (*types.Visitor, error) {
 	obj_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, &errors.NoData{}
-		}
 		return nil, &errors.Unknown{Cause: &err}
 	}
 	dat := &types.Visitor{}
