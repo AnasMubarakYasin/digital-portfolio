@@ -697,7 +697,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                 <Image
                                   src={download(item.image)}
                                   alt={item.name}
-                                  objectFit="cover"
+                                  objectFit="contain"
                                 />
                               </Show>
                             </AspectRatio>
