@@ -66,6 +66,8 @@ func New(address *Address) *Http {
 			"c.IPs()":           c.IPs(),
 			"c.Scheme()":        c.Scheme(),
 			"IsProxyTrusted":    c.IsProxyTrusted(),
+			"Forwarded":         c.Get("Forwarded"),
+			"X-Real-IP":         c.Get("X-Real-IP"),
 			"X-Forwarded-For":   c.Get("X-Forwarded-For"),
 			"X-Forwarded-Proto": c.Get("X-Forwarded-Proto"),
 		})
