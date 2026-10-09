@@ -145,11 +145,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
   >();
   const [profile, { refetch }] = createResource(
     source_profile,
-    fetcher_profile
+    fetcher_profile,
   );
   const [up_res, { mutate }] = createResource(
     source_up_profile,
-    fetcher_up_profile
+    fetcher_up_profile,
   );
   async function fetcher_profile(source: { token: string; name: string }) {
     const res = await fetch(`/api/profile/name/${source.name}`, {
@@ -466,14 +466,15 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       }
                     >
                       <Avatar
-                        size={{
-                          "@initial": "xl",
-                          "@xs": "md",
-                          "@sm": "lg",
-                          "@md": "lg",
-                          "@lg": "xl",
-                          "@xl": "xl",
-                        }}
+                        // size={{
+                        //   "@initial": "xl",
+                        //   "@xs": "md",
+                        //   "@sm": "lg",
+                        //   "@md": "lg",
+                        //   "@lg": "xl",
+                        //   "@xl": "xl",
+                        // }}
+                        size="xl"
                         name="photo"
                         src={download(profile.latest.photo)}
                         imageProps={{ crossorigin: "use-credentials" }}
@@ -673,7 +674,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                         {(item, index) => (
                           <GridItem
                             data-index={index()}
-                            display="flex"
+                            display="grid"
                             flexDirection="column"
                             gap="$2"
                             padding="$2"
@@ -682,26 +683,25 @@ const Profile: ParentComponent<ProfileProps> = function ({
                             borderColor="$neutral7"
                             borderRadius="$lg"
                           >
-                            <Box display="grid" gap="$2">
-                              <AspectRatio maxW="$full" ratio={16 / 9}>
-                                <Show
-                                  when={item.image}
-                                  fallback={
-                                    <Box
-                                      display="grid"
-                                      background="$neutral8"
-                                      objectFit="cover"
-                                    ></Box>
-                                  }
-                                >
-                                  <Image
-                                    src={download(item.image)}
-                                    alt={item.name}
+                            <AspectRatio maxW="$full" ratio={16 / 9}>
+                              <Show
+                                when={item.image}
+                                fallback={
+                                  <Box
+                                    display="grid"
+                                    background="$neutral8"
                                     objectFit="cover"
-                                  />
-                                </Show>
-                              </AspectRatio>
-                              {/* <AvatarGroup avatarBorderRadius="$xl">
+                                  ></Box>
+                                }
+                              >
+                                <Image
+                                  src={download(item.image)}
+                                  alt={item.name}
+                                  objectFit="cover"
+                                />
+                              </Show>
+                            </AspectRatio>
+                            {/* <AvatarGroup avatarBorderRadius="$xl">
                                 <Avatar
                                   size="md"
                                   icon={(props) => (
@@ -712,12 +712,8 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                   )}
                                 ></Avatar>
                               </AvatarGroup> */}
-                              <Flex
-                                gap="$2"
-                                direction="column"
-                                alignItems="flex-start"
-                                paddingLeft="$2"
-                              >
+                            <Flex gap="$2" direction="column" paddingStart="$2">
+                              <Flex direction="column">
                                 <Show
                                   when={item.link}
                                   fallback={
@@ -727,6 +723,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                   }
                                 >
                                   <Anchor
+                                    display="block"
                                     fontSize="$lg"
                                     fontWeight="$semibold"
                                     color="$primary11"
@@ -735,42 +732,42 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                     {item.name}
                                   </Anchor>
                                 </Show>
-                                {/* <Text
+                                <Text
                                   size="sm"
                                   fontWeight="$medium"
-                                  opacity="0.9"
+                                  opacity="0.7"
                                 >
                                   {item.client}
-                                </Text> */}
-                                <Text size="sm" fontWeight="$normal">
-                                  {item.description}
                                 </Text>
-                                <Show when={item.tags.length}>
-                                  <Flex wrap="wrap" gap="$1">
-                                    <For each={item.tags}>
-                                      {(item, index) => (
-                                        <Text
-                                          data-id={index()}
-                                          py="$1"
-                                          px="$2"
-                                          size="xs"
-                                          fontWeight="$normal"
-                                          borderWidth="1px"
-                                          borderStyle="solid"
-                                          borderColor="$neutral7"
-                                          borderRadius="$lg"
-                                          css={{ whiteSpace: "nowrap" }}
-                                        >
-                                          {item}
-                                        </Text>
-                                      )}
-                                    </For>
-                                  </Flex>
-                                </Show>
                               </Flex>
-                            </Box>
-                            <Box></Box>
-
+                              {/* <Box flexGrow={1}>{item.description}</Box> */}
+                              <Text size="medium" fontWeight="$normal" flexGrow={1}>
+                                {item.description}
+                              </Text>
+                              <Show when={item.tags.length}>
+                                <Flex wrap="wrap" gap="$1">
+                                  <For each={item.tags}>
+                                    {(item, index) => (
+                                      <Text
+                                        data-id={index()}
+                                        py="$1"
+                                        px="$2"
+                                        size="xs"
+                                        fontWeight="$normal"
+                                        borderWidth="1px"
+                                        borderStyle="solid"
+                                        borderColor="$neutral7"
+                                        borderRadius="$lg"
+                                        css={{ whiteSpace: "nowrap" }}
+                                      >
+                                        {item}
+                                      </Text>
+                                    )}
+                                  </For>
+                                </Flex>
+                              </Show>
+                            </Flex>
+                            {/* <Box></Box> */}
                             {/* <Divider />
                             <Flex w="$full" justifyContent="end">
                               <Anchor
@@ -825,7 +822,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                 });
                 if (profile.latest.name != pname()) {
                   window.location.replace(
-                    `/user/${encodeURI(pname())}/profile`
+                    `/user/${encodeURI(pname())}/profile`,
                   );
                 } else {
                 }

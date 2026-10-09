@@ -488,6 +488,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                 bg="$neutral1"
                 rounded="$md"
                 shadow="$sm"
+                // display={{"@initial": "none", "@md": "block"}}
               >
                 <Box display="grid" gap="$6">
                   <Flex gap="$4" alignItems="center">
@@ -609,7 +610,66 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       />
                     </Show>
                   </Flex>
-                  <Grid templateColumns="1fr 1fr" gap="$4">
+                  <Flex
+                    flexDirection="column"
+                    justifyContent="space-between"
+                    gap="$4"
+                    display={{ "@initial": "flex", "@md": "none" }}
+                  >
+                    <For
+                      each={[
+                        {
+                          title: profile.latest!.personal.email,
+                          subtitle: "Mail Address",
+                        },
+                        {
+                          title: profile.latest!.personal.dob,
+                          subtitle: "Date of Birth",
+                        },
+                        {
+                          title: profile.latest!.personal.phone,
+                          subtitle: "Phone Number",
+                        },
+                        {
+                          title: profile.latest!.personal.salary,
+                          subtitle: "Salary Expectation",
+                        },
+                      ]}
+                    >
+                      {(item, index) => (
+                        <Flex data-index={index()} gap="$3" alignItems="center">
+                          <AvatarGroup avatarBorderRadius="$xl">
+                            <Avatar
+                              size="md"
+                              icon={(props) => (
+                                <Icon
+                                  as={HiOutlineInformationCircle}
+                                  boxSize="$7"
+                                ></Icon>
+                              )}
+                            ></Avatar>
+                          </AvatarGroup>
+                          <Flex direction="column">
+                            <Text size="lg" fontWeight="$normal">
+                              {item.title}
+                            </Text>
+                            <Text
+                              size="base"
+                              fontWeight="$normal"
+                              opacity="0.8"
+                            >
+                              {item.subtitle}
+                            </Text>
+                          </Flex>
+                        </Flex>
+                      )}
+                    </For>
+                  </Flex>
+                  <Grid
+                    templateColumns="1fr 1fr"
+                    gap="$4"
+                    display={{ "@initial": "none", "@md": "grid" }}
+                  >
                     <For
                       each={[
                         {
@@ -844,7 +904,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                                 </Text>
                               </Flex>
                             </Flex>
-                            <Text size="base" fontWeight="$normal">
+                            <Text size="base" fontWeight="$normal" flexGrow={1}>
                               {item.description}
                             </Text>
                             <Divider />

@@ -19,7 +19,7 @@ import {
   MenuItem,
 } from "@hope-ui/solid";
 import { HiSolidChevronUpDown } from "solid-icons/hi";
-import { FiUser } from 'solid-icons/fi'
+import { FiUser } from "solid-icons/fi";
 import { use_authentication } from "@context/authentication";
 import { useLoading } from "@context/loading";
 
@@ -77,7 +77,14 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
           </Anchor>
         </Flex>
       </Box>
-      <Flex as="nav" gap="$8" alignItems="center" flexGrow="1">
+      <Box display={{ "@initial": "block", "@md": "none" }} flexGrow="1"></Box>
+      <Flex
+        as="nav"
+        gap="$8"
+        alignItems="center"
+        flexGrow="1"
+        display={{ "@initial": "none", "@md": "flex" }}
+      >
         <For each={nav} fallback={<div></div>}>
           {(item, index) => (
             <Anchor
@@ -89,8 +96,8 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
               _hover={{
                 color: "$primary11",
               }}
-              onclick={() =>  {
-                loading.load()
+              onclick={() => {
+                loading.load();
               }}
             >
               {item.text}
@@ -117,23 +124,27 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
 
         {children}
 
-        <Menu>
-          <MenuTrigger
-            as={Button}
-            size="sm"
-            variant="subtle"
-            rounded="$full"
-            color="$neutral12"
-            background="$neutral4"
-            rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
-          >
-            EN
-          </MenuTrigger>
-          <MenuContent>
-            <MenuItem>English</MenuItem>
-            <MenuItem>Indonesia</MenuItem>
-          </MenuContent>
-        </Menu>
+        <Box display={{ "@initial": "none", "@md": "block" }}>
+          <Menu>
+            <MenuTrigger
+              as={Button}
+              size="sm"
+              variant="subtle"
+              rounded="$full"
+              color="$neutral12"
+              background="$neutral4"
+              rightIcon={
+                <Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>
+              }
+            >
+              EN
+            </MenuTrigger>
+            <MenuContent>
+              <MenuItem>English</MenuItem>
+              <MenuItem>Indonesia</MenuItem>
+            </MenuContent>
+          </Menu>
+        </Box>
 
         <Show when={authc.data.account}>
           <Menu>
@@ -142,24 +153,44 @@ const TopAppBar: ParentComponent<TopAppBarProps> = function ({
               colorScheme="info"
               variant="ghost"
               px="$2"
-              rightIcon={<Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>}
+              rightIcon={
+                <Icon as={HiSolidChevronUpDown} color="$neutral12"></Icon>
+              }
             >
               <Flex gap="$4" alignItems="center">
-                <Avatar size="sm" icon={(props) => (
-                  <Icon
-                    as={FiUser}
-                    boxSize="$4"
-                  ></Icon>
-                )} />
+                <Avatar
+                  size="sm"
+                  icon={(props) => <Icon as={FiUser} boxSize="$4"></Icon>}
+                />
                 <Text size="base" color="$neutral12" fontWeight="$medium">
                   {authc.data.account.name}
                 </Text>
               </Flex>
             </MenuTrigger>
             <MenuContent>
-              <MenuGroup>
+              <MenuGroup display={{ "@initial": "none", "@md": "grid" }}>
                 <MenuItem>My Account</MenuItem>
                 <MenuItem>Notifications</MenuItem>
+              </MenuGroup>
+              <MenuGroup display={{ "@initial": "grid", "@md": "none" }}>
+                <MenuItem>My Account</MenuItem>
+                <MenuItem>Notifications</MenuItem>
+                <For each={nav} fallback={<div></div>}>
+                  {(item, index) => (
+                    <MenuItem
+                      data-index={index()}
+                      color={
+                        item.href.endsWith(path) ? "$primary11" : "$neutral12"
+                      }
+                      onSelect={() => location.assign(item.href)}
+                      _hover={{
+                        color: "$primary11",
+                      }}
+                    >
+                      {item.text}
+                    </MenuItem>
+                  )}
+                </For>
               </MenuGroup>
               <Divider role="presentation" my="$1" />
               <MenuGroup>
