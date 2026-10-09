@@ -489,7 +489,7 @@ const Profile: ParentComponent<ProfileProps> = function ({
                       <Text size="base" fontWeight="$medium" opacity="0.9">
                         {profile.latest.headline}
                       </Text>
-                      <Text size="sm" fontWeight="$light" opacity="0.75">
+                      <Text size="sm" fontWeight="$medium" opacity="0.75">
                         {profile.latest.personal.location}
                       </Text>
                     </Flex>
@@ -626,8 +626,8 @@ const Profile: ParentComponent<ProfileProps> = function ({
                             </AvatarGroup> */}
                             <Flex direction="column">
                               <Text
-                                size="sm"
-                                fontWeight="$normal"
+                                size="base"
+                                fontWeight="$semibold"
                                 opacity="0.9"
                               >
                                 {item.title}
