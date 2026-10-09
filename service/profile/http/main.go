@@ -13,18 +13,24 @@ type Http struct {
 	address string
 }
 
-func NewHttp(address string, s *source.Profile) *Http {
+func NewHttp(address string, s *source.Profile, sv *source.Visitor) *Http {
 	app := fiber.New()
-	ep := endpoint.NewProfile(s)
+	ep := endpoint.NewProfile(s, sv)
+	ev := endpoint.NewVisitor(sv)
 	m := NewMiddleware()
+
 	app.Use(m.Log)
+
 	app.Get("/name/:name", ep.Show)
+	app.Post("/visitor", ev.Count)
+
 	app.Get("/", ep.All)
 	app.Post("/", ep.Create)
 	app.Get("/:id", ep.Find)
 	app.Patch("/:id", ep.Update)
 	app.Delete("/:id", ep.Delete)
 	app.Delete("/", ep.Clear)
+
 	return &Http{app: app, address: address}
 }
 

@@ -145,6 +145,9 @@ const Profile: ParentComponent<ProfileProps> = function ({
   const [source_up_profile, up_profile] = createSignal<
     { token: string; id: string; profile: Types.Profile } | undefined
   >();
+  const [source_visitor, get_visitor] = createSignal<
+    { token: string; profile: string } | undefined
+  >();
   const [profile, { refetch }] = createResource(
     source_profile,
     fetcher_profile,
@@ -152,6 +155,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
   const [up_res, { mutate }] = createResource(
     source_up_profile,
     fetcher_up_profile,
+  );
+  const [visitor, { refetch: refetch_visitor }] = createResource(
+    source_visitor,
+    fetcher_visitor,
+    { initialValue: 0 },
   );
   async function fetcher_profile(source: { token: string; name: string }) {
     const res = await fetch(`/api/profile/name/${source.name}`, {
@@ -181,6 +189,20 @@ const Profile: ParentComponent<ProfileProps> = function ({
       throw new Error(res.statusText);
     }
     return res.json() as Promise<Types.Profile>;
+  }
+  async function fetcher_visitor(source: { token: string; profile: string }) {
+    const res = await fetch(`/api/profile/visitor`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${source.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ profile_id: source.profile }),
+    });
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    return res.json() as Promise<number>;
   }
   async function upload(path: string, file: File) {
     const headers = new Headers();
@@ -330,6 +352,11 @@ const Profile: ParentComponent<ProfileProps> = function ({
   }
   createEffect(() => {
     loading.loaded();
+  });
+  createEffect(() => {
+    if (profile.latest) {
+      get_visitor({ token: authc!.data!.token!, profile: profile.latest.id });
+    }
   });
   createEffect(() => {
     if (isOpnProfile()) {
@@ -1353,6 +1380,28 @@ const Profile: ParentComponent<ProfileProps> = function ({
                   >
                     Download
                   </Button> */}
+                  </Flex>
+                </Box>
+              </GridItem>
+              <GridItem
+                as="section"
+                p="$4"
+                color="$neutral12"
+                bg="$neutral1"
+                rounded="$md"
+                shadow="$sm"
+              >
+                <Box display="grid" gap="$4">
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Heading size="lg">Insight</Heading>
+                  </Flex>
+                  <Flex alignItems="center">
+                    <Text size="base" fontWeight="$normal" flexGrow="1">
+                      Visitor:
+                    </Text>
+                    <Text size="base" fontWeight="$normal">
+                      {visitor}
+                    </Text>
                   </Flex>
                 </Box>
               </GridItem>

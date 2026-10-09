@@ -1,5 +1,7 @@
 package types
 
+import "time"
+
 type Profile struct {
 	ID                 string              `json:"id,omitempty" bson:"_id,omitempty" xml:"id,omitempty" form:"id,omitempty"`
 	Image              string              `json:"image" bson:"image" xml:"image" form:"image"`
@@ -82,6 +84,11 @@ type Photo struct {
 	Content string `json:"content" bson:"content" xml:"content" form:"content"`
 }
 
+type ParamShow struct {
+	Name string
+	IP   string    `json:"ip" bson:"ip" xml:"ip" form:"ip"`
+	Date time.Time `json:"date" bson:"date" xml:"date" form:"date"`
+}
 type ParamCreate struct {
 	Image              string              `json:"image" bson:"image" xml:"image" form:"image"`
 	Photo              string              `json:"photo" bson:"photo" xml:"photo" form:"photo"`

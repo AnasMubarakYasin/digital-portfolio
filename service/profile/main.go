@@ -37,9 +37,11 @@ func main() {
 	defer db.Disconnect()
 
 	mc := model.NewProfile(db)
+	mcv := model.NewVisitor(db)
 	ca := client.NewAuth(address_account.Value)
-	sc := source.NewProfile(mc, ca)
-	http := http.NewHttp(address_profile.Value, sc)
+	sc := source.NewProfile(mc, mcv, ca)
+	scv := source.NewVisitor(mcv, ca)
+	http := http.NewHttp(address_profile.Value, sc, scv)
 
 	errs := make(chan error)
 	go func() {

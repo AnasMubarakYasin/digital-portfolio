@@ -8,16 +8,21 @@ import (
 
 type Profile struct {
 	m  *model.Profile
+	mv *model.Visitor
 	ca *client.Auth
 }
 
-func NewProfile(m *model.Profile, ca *client.Auth) *Profile {
-	return &Profile{m, ca}
+func NewProfile(m *model.Profile, mv *model.Visitor, ca *client.Auth) *Profile {
+	return &Profile{m, mv, ca}
 }
-func (c *Profile) Show(name string) (*types.Profile, error) {
+func (c *Profile) Show(p *types.ParamShow) (*types.Profile, error) {
 	d, err := c.m.FindOne(struct {
 		Name string `json:"name" bson:"name" xml:"name" form:"name"`
-	}{Name: name})
+	}{Name: p.Name})
+	if err != nil {
+		return nil, err
+	}
+	_, err = c.mv.UpdateInsert(&types.ParamCreateVisitor{ProfileID: d.ID, IP: p.IP, Date: p.Date})
 	return d, err
 }
 func (c *Profile) All() (*[]types.Profile, error) {
